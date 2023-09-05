@@ -27,7 +27,11 @@ class BandsController extends Controller
 
     public function show($slug)
     {
-        $band  = Band::where('URL', $slug)->firstOrFail();
+        $band = Cache::get('band_' . $slug, function() use ($slug) {
+            return Band::where('URL', $slug)
+                ->with('albums.songs')
+                ->firstOrFail();
+        });
 
         return Inertia::render('Bands/BandsShow')->with('band', $band);
     }
@@ -45,7 +49,7 @@ class BandsController extends Controller
     private function getBandsByLetter($letter)
     {
         return Cache::get('alpha_bands_' . $letter, function() use ($letter) {
-            return Band::where('Sort', $letter)->get();
+            return Band::where('Sort', $letter)->where('Enabled', 1)->orderBy('Alpha')->get();
         });
     }
 }
