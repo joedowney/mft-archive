@@ -49,7 +49,12 @@ class BandsController extends Controller
     private function getBandsByLetter($letter)
     {
         return Cache::get('alpha_bands_' . $letter, function() use ($letter) {
-            return Band::where('Sort', $letter)->where('Enabled', 1)->orderBy('Alpha')->get();
+            return Band::where('Sort', $letter)
+                ->where('Enabled', 1)
+                ->orderBy('Alpha')
+                ->withCount('albums')
+                ->withCount('songs')
+                ->get();
         });
     }
 }

@@ -26,6 +26,15 @@ class Band extends Model
 
     public function albums()
     {
-        return $this->hasMany(Album::class, 'BandID')->orderBy('Ord');
+        return $this->hasMany(Album::class, 'BandID')
+            ->where('mft_albums.Enabled', 1)
+            ->orderBy('Ord');
+    }
+
+    public function songs()
+    {
+        return $this->hasManyThrough(Song::class, Album::class, 'ID', 'AlbumID', 'ID')
+            ->where('mft_albums.Enabled', 1)
+            ->where('mft_songs.Enabled', 1);
     }
 }
