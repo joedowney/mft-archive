@@ -27,7 +27,7 @@ class BandsController extends Controller
 
     public function show($slug)
     {
-        $band = Cache::get('band_' . $slug, function() use ($slug) {
+        $band = Cache::rememberForever('band_' . $slug, function() use ($slug) {
             return Band::where('URL', $slug)
                 ->with('albums.songs')
                 ->firstOrFail();
@@ -38,7 +38,7 @@ class BandsController extends Controller
 
     private function getBandsAlphabet()
     {
-        return Cache::get('alphabet', function() {
+        return Cache::rememberForever('alphabet', function() {
             return Band::groupBy('Sort')
                 ->select('Sort', DB::raw('count(*) as total'))
                 ->orderBy('Sort')
@@ -48,7 +48,7 @@ class BandsController extends Controller
 
     private function getBandsByLetter($letter)
     {
-        return Cache::get('alpha_bands_' . $letter, function() use ($letter) {
+        return Cache::rememberForever('alpha_bands_' . $letter, function() use ($letter) {
             return Band::where('Sort', $letter)
                 ->where('Enabled', 1)
                 ->orderBy('Alpha')

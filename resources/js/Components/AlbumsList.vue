@@ -6,6 +6,12 @@ defineProps(['albums'])
 
 <template>
     <div class="p-3 rounded-lg">
-        <AlbumCard v-for="album in albums" :album="album" class="mb-4"></AlbumCard>
+        <template v-for="album in albums">
+            <AlbumCard
+                v-if="album.songs.length"
+                :album="album"
+                class="mb-4"
+            ></AlbumCard>
+        </template>
     </div>
 </template>
