@@ -33,7 +33,7 @@ class Band extends Model
 
     public function songs()
     {
-        return $this->hasManyThrough(Song::class, Album::class, 'ID', 'AlbumID', 'ID')
+        return $this->hasManyThrough(Song::class, Album::class, 'BandID', 'AlbumID', 'ID')
             ->where('mft_albums.Enabled', 1)
             ->where('mft_songs.Enabled', 1);
     }

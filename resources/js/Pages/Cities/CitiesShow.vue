@@ -1,17 +1,17 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-defineProps(['letter', 'bands']);
+import {Head, Link} from "@inertiajs/vue3";
+defineProps(['city', 'state']);
 </script>
 
 <template>
-    <Head :title="letter + ' - Bands'"></Head>
+    <Head :title="city.City + ', ' + state.State"></Head>
 
     <div class="bg-gray-800 p-4 rounded-lg flex gap-8 mb-6">
-        <h1 class="mb-0">{{ letter }}</h1>
+        <h1 class="mb-0">{{ city.City + ', ' + state.State }}</h1>
     </div>
 
     <ul>
-        <li v-for="band in bands" class="flex py-2 mb-3 gap-4 items-center">
+        <li v-for="band in city.bands" class="flex py-2 mb-3 gap-4 items-center">
             <img :src="band.ImagePath" class="w-12 h-12 object-cover rounded "/>
             <div>
                 <h3><Link :href="'/bands/' + band.URL">{{ band.Name }}</Link></h3>
