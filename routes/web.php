@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CitiesController;
 use Inertia\Inertia;
-use App\Http\Controllers\GenresController;
-use App\Http\Controllers\ImagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BandsController;
+use App\Http\Controllers\CitiesController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\GenresController;
+use App\Http\Controllers\ImagesController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -22,3 +23,6 @@ Route::get('genres/{slug}', [GenresController::class, 'show']);
 
 Route::get('cities', [CitiesController::class, 'index']);
 Route::get('cities/{slug}', [CitiesController::class, 'show']);
+
+Route::get('search', [SearchController::class, 'search']);
+

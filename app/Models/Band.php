@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
 
 class Band extends Model
 {
+    use Searchable;
+
     protected $table = 'mft_bands';
 
     protected $primaryKey = 'ID';
@@ -36,5 +39,28 @@ class Band extends Model
         return $this->hasManyThrough(Song::class, Album::class, 'BandID', 'AlbumID', 'ID')
             ->where('mft_albums.Enabled', 1)
             ->where('mft_songs.Enabled', 1);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'CityID', 'ID');
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'ID' => $this->ID,
+            'Name' => $this->Name,
+            'Enabled' => $this->Enabled,
+            'Path' => $this->Path,
+            'Description' => $this->Description,
+            'Members' => $this->Members,
+            'City' => optional($this->city)->City
+        ];
+    }
+
+    protected function makeAllSearchableUsing(Builder $query)
+    {
+        return $query->with('city');
     }
 }
