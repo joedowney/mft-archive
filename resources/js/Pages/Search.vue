@@ -7,7 +7,7 @@ defineProps(['q', 'bands', 'albums', 'songs']);
     <Head :title="q"></Head>
     <h1>'{{ q }}'</h1>
 
-    <div v-if="bands.length" class="mb-20">
+    <div v-if="bands.length" class="mb-12">
         <h2>Bands</h2>
 
         <div class="grid grid-cols-4 gap-4">
@@ -21,7 +21,7 @@ defineProps(['q', 'bands', 'albums', 'songs']);
         </div>
     </div>
 
-    <div v-if="albums.length" class="mb-10">
+    <div v-if="albums.length" class="mb-12">
 
         <h2>Albums</h2>
 
