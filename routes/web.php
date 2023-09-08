@@ -8,18 +8,6 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\GenresController;
 use App\Http\Controllers\ImagesController;
 
-Route::get('chuck', function() {
-    $albums = App\Models\Album::where('Enabled', 1)->with('band')->get();
-
-    $albums->filter(function($album) {
-        return ! $album->band;
-    })->each(function($album) {
-        $album->Enabled = 0;
-        $album->save();
-    });
-    echo 'ok';
-});
-
 Route::get('/', function () {
     return Inertia::render('Welcome');
 });
