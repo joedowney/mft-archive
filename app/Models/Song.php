@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -13,9 +14,12 @@ class Song extends Model
 
     protected $primaryKey = 'ID';
 
+    public $timestamps = false;
+
     public function album()
     {
-        return $this->belongsTo(Album::class, 'AlbumID', 'ID');
+        return $this->belongsTo(Album::class, 'AlbumID', 'ID')
+            ->where('mft_albums.Enabled', 1);
     }
 
     public function toSearchableArray()
@@ -24,6 +28,11 @@ class Song extends Model
             'ID' => $this->ID,
             'Title' => $this->Title
         ];
+    }
+
+    protected function makeAllSearchableUsing(Builder $query)
+    {
+        return $query->where('Enabled', 1);
     }
 
 }

@@ -61,6 +61,6 @@ class Band extends Model
 
     protected function makeAllSearchableUsing(Builder $query)
     {
-        return $query->with('city');
+        return $query->where('Enabled', 1)->with('city');
     }
 }

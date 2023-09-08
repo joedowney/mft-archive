@@ -16,7 +16,7 @@ import { Head, Link } from '@inertiajs/vue3';
             <p>Browse bands by city</p>
         </Link>
 
-        <Link href="/genres" class="rounded-lg bg-gray-800 p-4 hover:be-gray-700">
+        <Link href="/genres" class="rounded-lg bg-gray-800 p-4 hover:bg-gray-700">
             <h3>Genre</h3>
             <p>Browse bands by genre</p>
         </Link>

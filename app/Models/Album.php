@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
@@ -15,6 +16,8 @@ class Album extends Model
 
     protected $appends = ['ImagePath'];
 
+    public $timestamps = false;
+
     public function songs()
     {
         return $this->hasMany(Song::class, 'AlbumID')->orderBy('Ord');
@@ -22,7 +25,8 @@ class Album extends Model
 
     public function band()
     {
-        return $this->belongsTo(Band::class, 'BandID', 'ID');
+        return $this->belongsTo(Band::class, 'BandID', 'ID')
+            ->where('mft_bands.Enabled', 1);
     }
 
     public function getImagePathAttribute()
@@ -39,5 +43,10 @@ class Album extends Model
             'Title' => $this->Title,
             'Description' => $this->Description
         ];
+    }
+
+    protected function makeAllSearchableUsing(Builder $query)
+    {
+        return $query->where('Enabled', 1);
     }
 }
