@@ -1,24 +1,18 @@
 <script setup>
+import Song from "@/Components/Song.vue";
+
 defineProps(['album'])
 </script>
 
 <template>
     <div class="rounded-lg p-4" :id="'album_' + album.ID">
-        <div class="flex gap-6">
+        <div class="flex gap-6 mb-3">
             <img :src="album.ImagePath" class="w-16 h-16 rounded" />
             <div>
                 <h2 class="mb-1">{{ album.Title }}</h2>
                 <p class="text-sm text-gray-400">{{ album.songs_count }} songs</p>
             </div>
         </div>
-        <div v-for="song in album.songs" class="py-3 mb-2 flex items-start items-center">
-            <div class="text-white text-xl mr-5 mt-1">
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" style="fill:#9ca3af"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm384 0L176 384V128L384 256z"/></svg>
-            </div>
-            <div class="font-bold flex-1">{{ song.Title }}</div>
-            <div class="text-sm text-gray-400">
-                {{ song.Duration }}
-            </div>
-        </div>
+        <Song v-for="song in album.songs" :song="song"></Song>
     </div>
 </template>
