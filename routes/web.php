@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\SongsController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BandsController;
+use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\GenresController;
@@ -26,3 +28,5 @@ Route::get('cities/{slug}', [CitiesController::class, 'show']);
 
 Route::get('search', [SearchController::class, 'search']);
 
+Route::get('albums/{album_id}/data', [AlbumsController::class, 'data']);
+Route::get('songs/{song_id}/play', [SongsController::class, 'play']);

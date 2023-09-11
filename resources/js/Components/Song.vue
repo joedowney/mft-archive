@@ -1,27 +1,36 @@
 <script setup>
-import {currentSong, playSong, playerState} from "@/PlayerStore.js";
+import Player from "@/PlayerStore.js";
+import {PlayerState} from "@/PlayerStore.js";
 import {computed} from "vue";
 import EqualizerIcon from "@/Components/EqualizerIcon.vue";
 import LoadingIcon from "@/Components/LoadingIcon.vue";
 import PlayIcon from "@/Components/PlayIcon.vue";
 
 let props = defineProps(['song']);
+
 let isPlaying = computed(() =>  {
-    return currentSong.value?.ID === props.song.ID && playerState.value === 'playing';
+    return Player.currentSong.value?.ID === props.song.ID && Player.playerState.value === PlayerState.PLAYING;
 });
 let isLoading = computed(() => {
-   return currentSong.value?.ID === props.song.ID && playerState.value === 'loading';
+    return Player.currentSong.value?.ID === props.song.ID && Player.playerState.value === PlayerState.LOADING;
 });
 </script>
 
 <template>
-    <div class="p-3 mb-2 flex items-start items-center rounded-lg" :class="{'bg-gray-800' : currentSong?.ID === song.ID}">
+    <div class="p-3 mb-2 flex items-start items-center rounded-lg" :class="{'bg-gray-800' : Player.currentSong.value?.ID === song.ID}">
 
-        <EqualizerIcon v-if="isPlaying" class="mr-5 mt-1"></EqualizerIcon>
+        <div v-if="isPlaying" class="mr-5 group">
+            <EqualizerIcon v-if="isPlaying" class="group-hover:hidden"></EqualizerIcon>
+            <div class="hidden group-hover:block text-xl h-6 w-6 text-center cursor-pointer"
+                @click="() => Player.setCurrentSongPaused()"
+            >
+                <i class="fa-regular fa-circle-pause"></i>
+            </div>
+        </div>
 
-        <LoadingIcon v-else-if="isLoading" class="mr-5 mt-1"></LoadingIcon>
+        <LoadingIcon v-else-if="isLoading" class="mr-5"></LoadingIcon>
 
-        <PlayIcon v-else class="mr-5 mt-1 cursor-pointer" @click.prevent="() => playSong(song)"></PlayIcon>
+        <PlayIcon v-else class="mr-5 cursor-pointer text-lg h-6 w-6 text-center" @click.prevent="() => Player.playSong(song)"></PlayIcon>
 
         <div class="font-bold flex-1">{{ song.Title }}</div>
 

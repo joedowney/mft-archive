@@ -1,7 +1,7 @@
 import {computed, reactive} from "vue";
 
 export const PlayerState = {
-    STOPPED: 'stopped',
+    PAUSED: 'paused',
     PLAYING: 'playing',
     LOADING: 'loading'
 }
@@ -12,17 +12,50 @@ let state = reactive({
     player_state: PlayerState.STOPPED
 });
 
-export let setCurrentSong = (new_song) => {
-    state.current_song = new_song;
-}
+let playSong = (song) => {
 
-export let playSong = (song) => {
-    setCurrentSong(song);
+    if (state.current_song && song.ID === state.current_song.ID)
+        return resume();
+
+    state.current_song = song;
     state.player_state = PlayerState.LOADING;
-    setTimeout(() => {state.player_state = PlayerState.PLAYING }, 1000);
+    if (!state.album || song.AlbumID !== state.album?.ID) {
+        fetchAlbum(song.AlbumID);
+    }
+};
+
+let resume = () => {
+    state.player_state = PlayerState.PLAYING;
 }
 
-export let currentSong = computed(() => state.current_song);
-export let currentAlbum = computed(() => state.album);
-export let playerState = computed(() => state.player_state);
+let fetchAlbum = (album_id) => {
+    axios.get('/albums/' + album_id + '/data')
+        .then((response) => {
+            state.album = response.data;
+        });
+};
 
+let setCurrentSongPlaying = () => {
+    state.player_state = PlayerState.PLAYING;
+};
+
+let setCurrentSongPaused = () => {
+    state.player_state = PlayerState.PAUSED;
+}
+
+let toggleCurrentSongPlaying = () => {
+    if (state.player_state === PlayerState.PLAYING)
+        state.player_state = PlayerState.PAUSED;
+    else if (state.player_state === PlayerState.PAUSED)
+        state.player_state = PlayerState.PLAYING;
+}
+
+export default {
+    playSong: playSong,
+    setCurrentSongPlaying: setCurrentSongPlaying,
+    setCurrentSongPaused: setCurrentSongPaused,
+    toggleCurrentSongPlaying: toggleCurrentSongPlaying,
+    currentSong: computed(() => state.current_song),
+    playerState: computed(() => state.player_state),
+    currentAlbum: computed(() => state.album),
+}
