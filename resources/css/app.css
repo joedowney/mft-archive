@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-#app { height: 100%; }
+#app {
+    @apply h-full;
+    @apply flex;
+    @apply flex-col;
+}
 
 body {
     font-family: 'Rubik', sans-serif;
+    overscroll-behavior: none;
 }
 
 h1 {

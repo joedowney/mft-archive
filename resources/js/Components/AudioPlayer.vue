@@ -24,7 +24,10 @@ let loadCurrentSong = () => {
 </script>
 
 <template>
-    <div class="h-24 w-full fixed bottom-0 left-0 flex gap-6 bg-gray-900 drop-shadow-xl" style="background: #080b16">
+    <div class="h-24 w-full flex gap-6 bg-gray-900 drop-shadow-xl"
+         :class="{'hidden': !Player.currentSong.value }"
+         style="background: #080b16"
+    >
         <div class="w-96 p-4">
             <div v-if="Player.currentAlbum.value" class="flex gap-3">
                 <img :src="Player.currentAlbum.value?.ImagePath" class="w-16 h-16 object-cover rounded" />

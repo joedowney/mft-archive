@@ -24,7 +24,9 @@ let isLoading = computed(() => {
             <div class="hidden group-hover:block text-xl h-6 w-6 text-center cursor-pointer"
                 @click="() => Player.setCurrentSongPaused()"
             >
-                <i class="fa-regular fa-circle-pause"></i>
+                <span class="text-sky-400">
+                    <i class="fa-regular fa-circle-pause"></i>
+                </span>
             </div>
         </div>
 
@@ -34,7 +36,7 @@ let isLoading = computed(() => {
 
         <div class="font-bold flex-1">{{ song.Title }}</div>
 
-        <div class="text-sm text-gray-400">
+        <div class="text-sm text-gray-400" v-if="song.Duration !== '00:00'">
             {{ song.Duration }}
         </div>
     </div>
