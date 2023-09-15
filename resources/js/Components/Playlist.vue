@@ -12,7 +12,7 @@ let goNext = () => {
         </a>
         <a href="#" @click.prevent="goNext">
             <div class="text-xs uppercase font-bold" style="font-size: 10px">Next</div>
-            <div>{{ PlayerStore.next.value?.Title }}</div>
+            <div class="text-sm">{{ PlayerStore.next.value?.Title }}</div>
         </a>
     </div>
 </template>

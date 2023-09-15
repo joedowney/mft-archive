@@ -31,7 +31,7 @@ class Band extends Model
     {
         return $this->hasMany(Album::class, 'BandID')
             ->where('mft_albums.Enabled', 1)
-            ->orderBy('Ord');
+            ->orderBy('mft_albums.Ord');
     }
 
     public function songs()

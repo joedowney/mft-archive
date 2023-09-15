@@ -20,7 +20,9 @@ class Album extends Model
 
     public function songs()
     {
-        return $this->hasMany(Song::class, 'AlbumID')->orderBy('Ord');
+        return $this->hasMany(Song::class, 'AlbumID')
+            ->where('mft_songs.Enabled', 1)
+            ->orderBy('mft_songs.Ord');
     }
 
     public function band()
