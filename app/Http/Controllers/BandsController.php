@@ -38,6 +38,13 @@ class BandsController extends Controller
         return Inertia::render('Bands/BandsShow')->with('band', $band);
     }
 
+    public function data($band_id)
+    {
+        return Cache::rememberForever('band_data_' . $band_id, function() use ($band_id) {
+            return Band::where('ID', $band_id)->with('albums.songs')->firstOrFail();
+        });
+    }
+
     private function getBandsAlphabet()
     {
         return Cache::rememberForever('alphabet', function() {

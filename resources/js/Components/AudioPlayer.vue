@@ -1,7 +1,8 @@
 <script setup>
 import Player, {PlayerState} from "@/PlayerStore.js";
 import {Link} from "@inertiajs/vue3";
-import {onMounted, ref, watch} from "vue";
+import {ref, watch} from "vue";
+import Playlist from "@/Components/Playlist.vue";
 
 let audio_el = ref(null);
 
@@ -44,14 +45,24 @@ let loadCurrentSong = () => {
         <div class="flex-1 flex justify-center items-center">
             <div v-show="Player.currentSong.value" class="w-full">
                 <div class="flex items-center justify-center">
-                    <button class="text-xl">
+                    <button
+                        class="text-xl"
+                        :class="{'text-gray-600': ! Player.prev.value }"
+                        :disabled="! Player.prev.value"
+                        @click.prevent="Player.playSong(Player.prev.value)"
+                    >
                         <i class="fa-solid fa-backward"></i>
                     </button>
                     <button class="mx-8" @click="() => Player.toggleCurrentSongPlaying()" style="font-size: 34px;">
                         <span v-show="Player.playerState.value === PlayerState.PAUSED"><i class="fa-solid fa-circle-play"></i></span>
                         <span v-show="Player.playerState.value === PlayerState.PLAYING"><i class="fa-solid fa-circle-pause"></i></span>
                     </button>
-                    <button class="text-xl">
+                    <button
+                        class="text-xl"
+                        :class="{'text-gray-600': ! Player.next.value }"
+                        :disabled="! Player.next.value"
+                        @click.prevent="Player.playSong(Player.next.value)"
+                    >
                         <i class="fa-solid fa-forward"></i>
                     </button>
                 </div>
@@ -65,8 +76,8 @@ let loadCurrentSong = () => {
                 <audio ref="audio_el"></audio>
             </div>
         </div>
-        <div class="w-96">
-
+        <div class="w-96 p-4 pl-20 flex items-center">
+            <Playlist></Playlist>
         </div>
     </div>
 </template>

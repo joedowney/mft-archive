@@ -30,3 +30,4 @@ Route::get('search', [SearchController::class, 'search']);
 
 Route::get('albums/{album_id}/data', [AlbumsController::class, 'data']);
 Route::get('songs/{song_id}/play', [SongsController::class, 'play']);
+Route::get('bands/{band_id}/data', [BandsController::class, 'data']);
