@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\SongsController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BandsController;
+use App\Http\Controllers\SongsController;
 use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\SearchController;
