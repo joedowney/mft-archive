@@ -17,11 +17,11 @@ let isLoading = computed(() => {
 </script>
 
 <template>
-    <div class="p-3 mb-2 flex items-start items-center rounded-lg" :class="{'bg-gray-800' : Player.currentSong.value?.ID === song.ID}">
+    <div class="p-2 mb-0 md:mb-2 flex items-start items-center rounded-lg" :class="{'bg-gray-800' : Player.currentSong.value?.ID === song.ID}">
 
         <div v-if="isPlaying" class="mr-5 group">
             <EqualizerIcon v-if="isPlaying" class="group-hover:hidden"></EqualizerIcon>
-            <div class="hidden group-hover:block text-xl h-6 w-6 text-center cursor-pointer"
+            <div class="hidden group-hover:block text-2xl h-8 w-6 text-center cursor-pointer"
                 @click="() => Player.setCurrentSongPaused()"
             >
                 <span class="text-sky-400">
@@ -32,7 +32,7 @@ let isLoading = computed(() => {
 
         <LoadingIcon v-else-if="isLoading" class="mr-5"></LoadingIcon>
 
-        <PlayIcon v-else class="mr-5 cursor-pointer text-lg h-6 w-6 text-center" @click.prevent="() => Player.playSong(song)"></PlayIcon>
+        <PlayIcon v-else class="mr-5 cursor-pointer text-2xl h-8 w-6 text-center" @click.prevent="() => Player.playSong(song)"></PlayIcon>
 
         <div class="font-bold flex-1">{{ song.Title }}</div>
 

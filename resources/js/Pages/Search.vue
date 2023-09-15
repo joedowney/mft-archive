@@ -13,12 +13,12 @@ defineProps(['q', 'bands', 'albums', 'songs']);
         <div v-if="bands.length" class="mb-12">
             <h2>Bands</h2>
 
-            <div class="grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-4 gap-4">
                 <Link v-for="band in bands"
                       :href="'/bands/' + band.URL"
-                      class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700"
+                      class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 flex md:block gap-4 mb-4 md:mb-0"
                 >
-                    <img :src="band.ImagePath" class="w-44 h-44 object-cover rounded" />
+                    <img :src="band.ImagePath" class="w-12 h-12 md:w-44 md:h-44 object-cover rounded" />
                     <h3 class="text-ellipsis overflow-hidden whitespace-nowrap mt-4 mb-0">{{ band.Name }}</h3>
                 </Link>
             </div>
@@ -28,13 +28,13 @@ defineProps(['q', 'bands', 'albums', 'songs']);
 
             <h2>Albums</h2>
 
-            <div class="grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-4 gap-4">
                 <Link
                     v-for="album in albums"
                     :href="'/bands/' + album.band.URL + '#album_' + album.ID"
-                    class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700"
+                    class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 flex md:block gap-4 mb-4 md:mb-0"
                 >
-                    <img :src="album.ImagePath" class="w-44 h-44 object-cover rounded" />
+                    <img :src="album.ImagePath" class="w-12 h-12 md:w-44 md:h-44 object-cover rounded" />
                     <h3 class="text-ellipsis overflow-hidden whitespace-nowrap mt-4 mb-0">{{ album.Title }}</h3>
                 </Link>
             </div>

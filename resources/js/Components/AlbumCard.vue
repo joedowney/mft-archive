@@ -5,9 +5,9 @@ defineProps(['album'])
 </script>
 
 <template>
-    <div class="rounded-lg p-4" :id="'album_' + album.ID">
-        <div class="flex gap-6 mb-3">
-            <img :src="album.ImagePath" class="w-16 h-16 rounded" />
+    <div class="mb-10" :id="'album_' + album.ID">
+        <div class="flex gap-6 mb-0 md:mb-3">
+            <img :src="album.ImagePath" class="w-12 h-12 md:w-16 md:h-16 rounded mt-1.5 md:mt-0" />
             <div>
                 <h2 class="mb-1">{{ album.Title }}</h2>
                 <p class="text-sm text-gray-400">{{ album.songs_count }} songs</p>

@@ -35,6 +35,9 @@ onMounted(() => {
         if (Player.next.value) {
             Player.playSong(Player.next.value);
         }
+        else {
+            Player.setCurrentSongPaused();
+        }
     });
     audio_el.value.addEventListener('timeupdate', () => {
         state.current_time = audio_el.value.currentTime;
@@ -58,13 +61,15 @@ let duration = computed(() => {
 </script>
 
 <template>
-    <div class="h-26 w-full flex gap-6 bg-gray-900 drop-shadow-xl"
+    <div class="md:h-26 w-full lg:flex gap-6 bg-gray-900 drop-shadow-xl"
          :class="{'hidden': !Player.currentSong.value }"
          style="background: #080b16"
     >
-        <div class="w-96 p-5">
+        <div class="w-80 p-5">
             <div v-if="Player.currentAlbum.value" class="flex gap-3">
-                <img :src="Player.currentAlbum.value?.ImagePath" class="w-16 h-16 object-cover rounded" />
+                <img :src="Player.currentAlbum.value?.ImagePath"
+                     class="w-9 h-9 md:w-16 md:h-16 object-cover rounded mt-0.5"
+                />
                 <div class="flex flex-col justify-center">
                     <div class="text-sm font-bold mb-1">{{ Player.currentSong.value?.Title }}</div>
                     <div class="text-xs">
@@ -76,46 +81,48 @@ let duration = computed(() => {
             </div>
         </div>
         <div class="flex-1 flex justify-center items-center -mt-2">
-            <div v-show="Player.currentSong.value" class="w-full">
-                <div class="flex items-center justify-center">
-                    <button
-                        class="text-xl"
-                        :class="{'text-gray-600': ! Player.prev.value }"
-                        :disabled="! Player.prev.value"
-                        @click.prevent="Player.playSong(Player.prev.value)"
-                    >
-                        <i class="fa-solid fa-backward"></i>
-                    </button>
-                    <button class="mx-8" @click="() => Player.toggleCurrentSongPlaying()" style="font-size: 34px;">
-                        <span v-show="Player.playerState.value === PlayerState.PAUSED"><i class="fa-solid fa-circle-play"></i></span>
-                        <span v-show="Player.playerState.value === PlayerState.PLAYING"><i class="fa-solid fa-circle-pause"></i></span>
-                    </button>
-                    <button
-                        class="text-xl"
-                        :class="{'text-gray-600': ! Player.next.value }"
-                        :disabled="! Player.next.value"
-                        @click.prevent="Player.playSong(Player.next.value)"
-                    >
-                        <i class="fa-solid fa-forward"></i>
-                    </button>
-                </div>
-                <div class="w-full flex items-center gap-3">
-                    <div class="text-sm w-10 text-right">{{ current_time }}</div>
+            <div class="max-w-2xl w-full pb-6 lg:pb-0">
+                <div v-show="Player.currentSong.value" class="w-full">
+                    <div class="flex items-center justify-center">
+                        <button
+                            class="text-xl"
+                            :class="{'text-gray-600': ! Player.prev.value }"
+                            :disabled="! Player.prev.value"
+                            @click.prevent="Player.playSong(Player.prev.value)"
+                        >
+                            <i class="fa-solid fa-backward"></i>
+                        </button>
+                        <button class="mx-8" @click="() => Player.toggleCurrentSongPlaying()" style="font-size: 34px;">
+                            <span v-show="Player.playerState.value === PlayerState.PAUSED"><i class="fa-solid fa-circle-play"></i></span>
+                            <span v-show="Player.playerState.value === PlayerState.PLAYING"><i class="fa-solid fa-circle-pause"></i></span>
+                        </button>
+                        <button
+                            class="text-xl"
+                            :class="{'text-gray-600': ! Player.next.value }"
+                            :disabled="! Player.next.value"
+                            @click.prevent="Player.playSong(Player.next.value)"
+                        >
+                            <i class="fa-solid fa-forward"></i>
+                        </button>
+                    </div>
+                    <div class="w-full flex items-center gap-3">
+                        <div class="text-sm w-10 text-right">{{ current_time }}</div>
                         <input
                             type="range"
                             min="0"
                             :max="state.duration"
                             class="w-full flex-1"
-                            :value="state.current_time"
+                            :value="state.current_time || 0"
                             step="1"
                             ref="seek_bar"
                         />
-                    <div class="text-sm w-10">{{ duration }}</div>
+                        <div class="text-sm w-10">{{ duration }}</div>
+                    </div>
+                    <audio ref="audio_el"></audio>
                 </div>
-                <audio ref="audio_el"></audio>
             </div>
         </div>
-        <div class="w-96 p-4 pl-20 flex items-center">
+        <div class="w-80 p-4 pl-20 hidden lg:flex items-center">
             <Playlist></Playlist>
         </div>
     </div>

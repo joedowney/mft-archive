@@ -18,7 +18,7 @@ let toggleShowMore = () => {
 <template>
 
     <div class="bg-gray-800 p-4 rounded-lg flex gap-8">
-        <img :src="band.ImagePath" class="w-32 h-32 object-cover rounded-lg"/>
+        <img :src="band.ImagePath" class="object-cover rounded-lg md:w-32 w-20 h-20 md:h-32"/>
 
         <div class="mr-4 flex-1">
             <h1 class="mb-4">{{ band.Name }}</h1>

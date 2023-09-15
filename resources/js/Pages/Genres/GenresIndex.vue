@@ -10,7 +10,7 @@ defineProps(['genres']);
     <Page>
         <h1>Genres</h1>
 
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
             <template v-for="genre in genres">
                 <Link v-if="genre.bands_count"
                       :href="'/genres/' + genre.Slug"
