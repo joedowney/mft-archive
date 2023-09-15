@@ -62,7 +62,7 @@ let duration = computed(() => {
 
 <template>
     <div class="md:h-26 w-full lg:flex gap-6 bg-gray-900 drop-shadow-xl"
-         :class="{'hidden': !Player.currentSong.value }"
+         :class="{'!hidden': !Player.currentSong.value }"
          style="background: #080b16"
     >
         <div class="w-80 p-5">
