@@ -18,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 /data.ms
+bootstrap/ssr
