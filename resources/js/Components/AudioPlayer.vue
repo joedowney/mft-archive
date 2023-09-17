@@ -65,25 +65,34 @@ let duration = computed(() => {
          :class="{'!hidden': !Player.currentSong.value }"
          style="background: #080b16"
     >
-        <div class="w-80 p-5">
+        <div class="lg:w-80 p-5">
             <div v-if="Player.currentAlbum.value" class="flex gap-3">
                 <img :src="Player.currentAlbum.value?.ImagePath"
                      class="w-9 h-9 md:w-16 md:h-16 object-cover rounded mt-0.5"
                 />
-                <div class="flex flex-col justify-center">
-                    <div class="text-sm font-bold mb-1">{{ Player.currentSong.value?.Title }}</div>
+                <div class="flex flex-col lg:justify-center flex-1">
+                    <div class="text-sm font-bold md:mb-1 text-sky-400 lg:text-white">
+                        {{ Player.currentSong.value?.Title }}
+                    </div>
                     <div class="text-xs">
-                        <Link :href="'/bands/' + Player.currentAlbum.value?.band?.Path">
+                        <Link :href="'/bands/' + Player.currentAlbum.value?.band?.Path" class="text-sky-600 lg:text-white">
                             {{ Player.currentAlbum.value?.band?.Name }}
                         </Link>
                     </div>
                 </div>
+
+                <div class="block lg:hidden">
+                    <button class="h-9" @click="() => Player.toggleCurrentSongPlaying()" style="font-size: 24px; color: #38BDF8">
+                        <span v-show="Player.playerState.value === PlayerState.PAUSED"><i class="fa-solid fa-play"></i></span>
+                        <span v-show="Player.playerState.value === PlayerState.PLAYING"><i class="fa-solid fa-pause"></i></span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="flex-1 flex justify-center items-center -mt-2">
+        <div class="flex-1 flex justify-center items-center lg:-mt-2">
             <div class="max-w-2xl w-full pb-6 lg:pb-0">
                 <div v-show="Player.currentSong.value" class="w-full">
-                    <div class="flex items-center justify-center">
+                    <div class="hidden lg:flex items-center justify-center">
                         <button
                             class="text-xl"
                             :class="{'text-gray-600': ! Player.prev.value }"
@@ -106,7 +115,18 @@ let duration = computed(() => {
                         </button>
                     </div>
                     <div class="w-full flex items-center gap-3">
-                        <div class="text-sm w-10 text-right">{{ current_time }}</div>
+
+                        <div class="inline-block lg:hidden ml-6" style="color: #38BDF8">
+                            <button
+                                class="text-xl"
+                                :class="{'text-gray-600': ! Player.prev.value }"
+                                :disabled="! Player.prev.value"
+                                @click.prevent="Player.playSong(Player.prev.value)"
+                            >
+                                <i class="fa-solid fa-backward"></i>
+                            </button>
+                        </div>
+                        <div class="text-sm w-10 text-right text-sky-600 lg:text-white">{{ current_time }}</div>
                         <input
                             type="range"
                             min="0"
@@ -116,7 +136,18 @@ let duration = computed(() => {
                             step="1"
                             ref="seek_bar"
                         />
-                        <div class="text-sm w-10">{{ duration }}</div>
+                        <div class="text-sm w-10 text-sky-600 lg:text-white">{{ duration }}</div>
+
+                        <div class="inline-block lg:hidden mr-6" style="color: #38BDF8">
+                            <button
+                                class="text-xl"
+                                :class="{'text-gray-600': ! Player.next.value }"
+                                :disabled="! Player.next.value"
+                                @click.prevent="Player.playSong(Player.next.value)"
+                            >
+                                <i class="fa-solid fa-forward"></i>
+                            </button>
+                        </div>
                     </div>
                     <audio ref="audio_el"></audio>
                 </div>

@@ -9,13 +9,12 @@
 }
 
 html {
-    height: -webkit-fill-available;
+    height: 100%;
 }
 body {
     font-family: 'Rubik', sans-serif;
     overscroll-behavior: none;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+    height: 100%;
 }
 
 h1 {
