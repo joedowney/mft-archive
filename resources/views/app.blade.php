@@ -17,12 +17,12 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased text-gray-200"
-        style="background: rgb(31,41,54); background: linear-gradient(350deg, #121b2c 32%, rgb(0 0 0) 100%)"
+        style="background: rgb(31,41,54); background: linear-gradient(350deg, #121b2c 55%, rgb(0 0 0) 100%)"
     >
         @inertia
 
         <script>
-            window.onresize = function() { document.body.height = window.innerHeight;  console.log(document.body.height); }
+            window.onresize = function() { document.body.height = window.innerHeight; }
             window.onresize();
         </script>
     </body>

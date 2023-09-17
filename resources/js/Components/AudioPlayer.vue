@@ -61,17 +61,17 @@ let duration = computed(() => {
 </script>
 
 <template>
-    <div class="md:h-26 w-full lg:flex gap-6 bg-gray-900 drop-shadow-xl"
+    <div class="lg:h-26 w-full lg:flex gap-6 bg-gray-900 drop-shadow-xl"
          :class="{'!hidden': !Player.currentSong.value }"
          style="background: #080b16"
     >
         <div class="lg:w-80 p-5">
             <div v-if="Player.currentAlbum.value" class="flex gap-3">
                 <img :src="Player.currentAlbum.value?.ImagePath"
-                     class="w-9 h-9 md:w-16 md:h-16 object-cover rounded mt-0.5"
+                     class="w-9 h-9 lg:w-16 lg:h-16 object-cover rounded mt-0.5"
                 />
                 <div class="flex flex-col lg:justify-center flex-1">
-                    <div class="text-sm font-bold md:mb-1 text-sky-400 lg:text-white">
+                    <div class="text-sm font-bold lg:mb-1 text-sky-400 lg:text-white">
                         {{ Player.currentSong.value?.Title }}
                     </div>
                     <div class="text-xs">
