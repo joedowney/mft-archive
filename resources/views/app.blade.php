@@ -20,10 +20,5 @@
         style="background: rgb(31,41,54); background: linear-gradient(350deg, #121b2c 55%, rgb(0 0 0) 100%)"
     >
         @inertia
-
-        <script>
-            window.onresize = function() { document.body.height = window.innerHeight; }
-            window.onresize();
-        </script>
     </body>
 </html>

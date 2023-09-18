@@ -14,7 +14,7 @@ let state = reactive({
 watch(Player.currentSong, () => {
     loadCurrentSong();
 });
-watch(Player.playerState, (newState, oldState) => {
+watch(Player.playerState, (newState) => {
     if (newState === PlayerState.PLAYING)
         audio_el.value.play();
     else if (newState === PlayerState.PAUSED)

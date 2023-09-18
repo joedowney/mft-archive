@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Band;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class BandsController extends Controller
 {
