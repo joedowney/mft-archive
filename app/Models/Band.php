@@ -59,6 +59,11 @@ class Band extends Model
         ];
     }
 
+    public function relatedBands()
+    {
+        return $this->belongsToMany(Band::class, 'related_bands', 'band_id', 'related_band_id');
+    }
+
     protected function makeAllSearchableUsing(Builder $query)
     {
         return $query->where('Enabled', 1)->with('city');

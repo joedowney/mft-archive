@@ -16,8 +16,8 @@ class SearchController extends Controller
 
         $q = request('q');
 
-        $bands = Band::search($q)->take(4)->get();
-        $albums = Album::search($q)->take(4)->get();
+        $bands = Band::search($q)->take(10)->get();
+        $albums = Album::search($q)->take(10)->get();
         $albums->load('band');
         $songs = Song::search($q)->take(20)->get();
         $songs->load('album.band');

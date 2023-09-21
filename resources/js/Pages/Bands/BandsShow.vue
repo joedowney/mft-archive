@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/vue3';
 import BandInfoCard from "@/Components/BandInfoCard.vue";
 import AlbumsList from "@/Components/AlbumsList.vue";
 import Page from "@/Components/Page.vue";
+import BandList from "@/Components/BandList.vue";
 defineProps(['band']);
 </script>
 
@@ -10,8 +11,14 @@ defineProps(['band']);
     <Head :title="band.Name" />
 
     <Page>
-        <BandInfoCard :band="band"></BandInfoCard>
+        <BandInfoCard :band="band" class="mb-10"></BandInfoCard>
 
-        <AlbumsList :albums="band.albums" class="mt-4"></AlbumsList>
+        <div v-if="band.related_bands.length" class="mb-12">
+            <h1 class="text-gray-400 mb-0 md:ml-3 mb-4">Related Bands</h1>
+            <BandList :bands="band.related_bands"></BandList>
+        </div>
+
+        <h1 class="text-gray-400 mb-0 md:ml-3 mb-6">Albums</h1>
+        <AlbumsList :albums="band.albums"></AlbumsList>
     </Page>
 </template>

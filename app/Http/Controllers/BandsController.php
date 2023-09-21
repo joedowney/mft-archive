@@ -32,6 +32,7 @@ class BandsController extends Controller
                 ->with('albums', function($query) {
                     return $query->with('songs')->withCount('songs');
                 })
+                ->with('relatedBands')
                 ->firstOrFail();
         });
 

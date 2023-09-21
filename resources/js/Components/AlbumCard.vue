@@ -5,7 +5,7 @@ defineProps(['album'])
 </script>
 
 <template>
-    <div class="mb-10" :id="'album_' + album.ID">
+    <div class="mb-12" :id="'album_' + album.ID">
         <div class="flex gap-6 mb-0 md:mb-3">
             <img :src="album.ImagePath" class="w-12 h-12 md:w-16 md:h-16 rounded mt-1.5 md:mt-0" />
             <div>
