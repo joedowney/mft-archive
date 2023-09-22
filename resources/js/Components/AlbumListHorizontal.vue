@@ -1,7 +1,7 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
-import {onMounted, ref, watch} from "vue";
-defineProps(['bands']);
+import {onMounted, ref} from "vue";
+defineProps(['albums']);
 let scroll_container = ref(null);
 let scrollable = ref(null);
 let showRightArrow = ref(false);
@@ -34,21 +34,22 @@ let setArrows = () => {
 
 <template>
     <div class="relative">
-        <div class="overflow-x-scroll relative" ref="scroll_container" @scroll="setArrows">
-            <div ref="scrollable" class="flex md:gap-4">
-                <Link v-for="band in bands"
-                      :href="'/bands/' + band.URL"
-                      class="rounded-lg hover:bg-gray-700 block mb-4 md:mb-0 p-2 text-center"
+        <div class="overflow-x-scroll" ref="scroll_container" @scroll="setArrows">
+            <div ref="scrollable" class="flex gap-4">
+                <Link
+                    v-for="album in albums"
+                    :href="'/bands/' + album.band.URL + '#album_' + album.ID"
+                    class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 block mb-4 md:mb-0 p-2 text-center"
                 >
                     <div class="w-32 md:w-40">
-                        <img :src="band.ImagePath" class="w-32 h-32 md:w-40 md:h-40 object-cover object-center rounded-full mr-6 md:mr-0" />
-                        <h3 class="text-ellipsis overflow-hidden whitespace-nowrap md:mt-4 mb-0 text-xs md:text-base mt-2">
-                            {{ band.Name }}
-                        </h3>
+                        <img :src="album.ImagePath" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded" />
+                        <h3 class="text-ellipsis overflow-hidden whitespace-nowrap mt-4 mb-0 text-xs md:text-base ">{{ album.Title }}</h3>
+                        <h4 class="text-ellipsis overflow-hidden whitespace-nowrap mt-1 mb-0 text-xs md:text-base text-gray-400">{{ album.band.Name }}</h4>
                     </div>
                 </Link>
             </div>
         </div>
+
         <div
             class="absolute h-full w-6 top-0 -left-8 hidden md:flex items-center justify-center text-gray-600"
             style="font-size: 40px;"
