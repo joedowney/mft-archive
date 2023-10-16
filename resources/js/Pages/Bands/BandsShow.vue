@@ -14,8 +14,7 @@ defineProps(['band']);
         <BandInfoCard :band="band" class="mb-10"></BandInfoCard>
 
         <div v-if="band.related_bands.length" class="mb-12">
-            <h1 class="text-gray-400 mb-0 md:ml-3 mb-4">Related Bands</h1>
-            <BandList :bands="band.related_bands"></BandList>
+            <BandList :bands="band.related_bands" title="Related Bands"></BandList>
         </div>
 
         <h1 class="text-gray-400 mb-0 md:ml-3 mb-6">Albums</h1>

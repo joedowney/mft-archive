@@ -1,67 +1,52 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
-import {onMounted, ref, watch} from "vue";
-defineProps(['bands']);
-let scroll_container = ref(null);
-let scrollable = ref(null);
-let showRightArrow = ref(false);
-let showLeftArrow = ref(false);
+import {onBeforeUnmount, onMounted, ref, watch} from "vue";
+defineProps(['bands', 'title']);
+let grid_el = ref(null);
+let closed_height = ref(0);
+let show_more = ref(false);
+let has_more = ref(false);
+let setHeight = () => {
+    closed_height.value = grid_el.value.firstElementChild.offsetHeight;
+    has_more.value = grid_el.value.scrollHeight > closed_height.value;
+}
+
 onMounted(() => {
-    if (scroll_container.value.scrollWidth > scroll_container.value.offsetWidth)
-        showRightArrow.value = true;
+    setHeight();
+    window.addEventListener('resize', setHeight);
 });
-let setArrows = () => {
-    if (scroll_container.value.scrollWidth <= scroll_container.value.offsetWidth)
-        return;
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', setHeight);
+})
 
-    if (scroll_container.value.scrollLeft) {
-        if (!showLeftArrow.value)
-            showLeftArrow.value = true;
-    }
-    else if (showLeftArrow.value) {
-        showLeftArrow.value = false;
-    }
-
-    if (scroll_container.value.scrollWidth > (scroll_container.value.scrollLeft + scroll_container.value.offsetWidth)) {
-        if (!showRightArrow.value)
-            showRightArrow.value = true
-    }
-    else {
-        showRightArrow.value = false;
-    }
-};
 </script>
 
 <template>
-    <div class="relative">
-        <div class="overflow-x-scroll relative" ref="scroll_container" @scroll="setArrows">
-            <div ref="scrollable" class="flex md:gap-4">
-                <Link v-for="band in bands"
-                      :href="'/bands/' + band.URL"
-                      class="rounded-lg hover:bg-gray-700 block mb-4 md:mb-0 p-2 text-center"
-                >
-                    <div class="w-32 md:w-40">
-                        <img :src="band.ImagePath" class="w-32 h-32 md:w-40 md:h-40 object-cover object-center rounded-full mr-6 md:mr-0" />
-                        <h3 class="text-ellipsis overflow-hidden whitespace-nowrap md:mt-4 mb-0 text-xs md:text-base mt-2">
-                            {{ band.Name }}
-                        </h3>
-                    </div>
-                </Link>
-            </div>
-        </div>
-        <div
-            class="absolute h-full w-6 top-0 -left-8 hidden md:flex items-center justify-center text-gray-600"
-            style="font-size: 40px;"
-            v-if="showLeftArrow"
+    <div class="flex justify-between items-center">
+        <h1 class="mb-0 md:ml-3 text-gray-400">{{ title }}</h1>
+        <a href="#"
+           class="font-bold text-sm text-blue-500"
+           @click.prevent="() => { show_more = !show_more}"
+           v-show="has_more"
         >
-            <i class="fa-solid fa-chevron-left"></i>
-        </div>
-        <div
-            class="absolute h-full w-6 top-0 -right-8 hidden md:flex items-center justify-center text-gray-600"
-            style="font-size: 40px;"
-            v-if="showRightArrow"
-        >
-            <i class="fa-solid fa-chevron-right"></i>
+            <span v-if="show_more">show less</span>
+            <span v-else>show more</span>
+        </a>
+    </div>
+    <div :style="{'height': show_more ? 'auto' : closed_height + 'px'}" class="overflow-hidden">
+        <div class="grid grid-cols-3 sm:grid-cols-5 md:gap-4 overflow-hidden" ref="grid_el">
+            <Link v-for="band in bands"
+                  :href="'/bands/' + band.URL"
+                  class="rounded-lg hover:bg-gray-700 block p-2 text-center"
+            >
+                <div>
+                    <img :src="band.ImagePath" class="w-full aspect-square object-cover object-center rounded-full mr-6 md:mr-0" />
+                    <h3 class="text-ellipsis overflow-hidden whitespace-nowrap md:mt-4 mb-0 text-xs md:text-base mt-2">
+                        {{ band.Name }}
+                    </h3>
+                </div>
+            </Link>
         </div>
     </div>
+
 </template>
