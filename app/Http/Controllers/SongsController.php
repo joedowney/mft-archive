@@ -19,4 +19,9 @@ class SongsController extends Controller
 
         return redirect()->to($url);
     }
+
+    public function data($song_id)
+    {
+        return Song::with('album.band')->findOrFail($song_id);
+    }
 }

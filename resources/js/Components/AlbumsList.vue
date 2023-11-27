@@ -10,6 +10,7 @@ defineProps(['albums'])
             <AlbumCard
                 v-if="album.songs.length"
                 :album="album"
+                @copy-song-to-clipboard="(song_id) => $emit('copy-song-to-clipboard', song_id)"
             ></AlbumCard>
         </template>
     </div>

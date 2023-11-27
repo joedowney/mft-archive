@@ -1,12 +1,16 @@
 <script setup>
 import Player from "@/PlayerStore.js";
 import {PlayerState} from "@/PlayerStore.js";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import EqualizerIcon from "@/Components/EqualizerIcon.vue";
 import LoadingIcon from "@/Components/LoadingIcon.vue";
 import PlayIcon from "@/Components/PlayIcon.vue";
+import LinkIcon from "@/Components/LinkIcon.vue";
 
 let props = defineProps(['song']);
+let emit = defineEmits(['copy-song-to-clipboard']);
+
+let copied = ref(false);
 
 let isPlaying = computed(() =>  {
     return Player.currentSong.value?.ID === props.song.ID && Player.playerState.value === PlayerState.PLAYING;
@@ -14,10 +18,17 @@ let isPlaying = computed(() =>  {
 let isLoading = computed(() => {
     return Player.currentSong.value?.ID === props.song.ID && Player.playerState.value === PlayerState.LOADING;
 });
+let copySongLink = (song_id) => {
+    emit('copy-song-to-clipboard', song_id);
+    copied.value = true;
+    setTimeout(() => copied.value = false, 3000);}
 </script>
 
 <template>
-    <div class="p-2 mb-0 md:mb-2 flex items-start items-center rounded-lg" :class="{'bg-gray-800' : Player.currentSong.value?.ID === song.ID}">
+    <div
+        class="p-2 mb-0 md:mb-2 flex items-start items-center rounded-lg group hover:bg-black"
+        :class="{'bg-gray-800' : Player.currentSong.value?.ID === song.ID}"
+    >
 
         <div v-if="isPlaying" class="mr-5 group">
             <EqualizerIcon v-if="isPlaying" class="group-hover:hidden"></EqualizerIcon>
@@ -38,6 +49,17 @@ let isLoading = computed(() => {
 
         <div class="text-sm text-gray-400" v-if="song.Duration !== '00:00'">
             {{ song.Duration }}
+        </div>
+
+        <div class="text-gray-400 ml-3 mr-1 opacity-1 sm:opacity-0 group-hover:opacity-100 relative">
+            <div
+                v-if="copied"
+                class="absolute -top-10 -left-8 p-2 rounded bg-blue-500 text-xs text-white whitespace-nowrap">
+                URL Copied!
+            </div>
+            <a href="#" @click.prevent="() => copySongLink(song.ID)">
+                <LinkIcon></LinkIcon>
+            </a>
         </div>
     </div>
 </template>

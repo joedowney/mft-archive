@@ -15,10 +15,19 @@ watch(Player.currentSong, () => {
     loadCurrentSong();
 });
 watch(Player.playerState, (newState) => {
-    if (newState === PlayerState.PLAYING)
-        audio_el.value.play();
-    else if (newState === PlayerState.PAUSED)
-        audio_el.value.pause();
+        if (newState === PlayerState.PLAYING) {
+            let promise = audio_el.value.play();
+            if (promise !== undefined) {
+                promise
+                    .then(() => {})
+                    .catch(() => {
+                        Player.toggleCurrentSongPlaying();
+                    });
+            }
+        }
+        else if (newState === PlayerState.PAUSED) {
+            audio_el.value.pause();
+        }
 });
 
 let loadCurrentSong = () => {

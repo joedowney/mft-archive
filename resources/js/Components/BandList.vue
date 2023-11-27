@@ -1,6 +1,6 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
-import {onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 defineProps(['bands', 'title']);
 let grid_el = ref(null);
 let closed_height = ref(0);

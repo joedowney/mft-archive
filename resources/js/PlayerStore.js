@@ -48,6 +48,11 @@ let fetchBand = (band_id) => {
         });
 };
 
+let fetchSong = async (song_id) => {
+    let response = await axios.get('/songs/' + song_id + '/data');
+    playSong(response.data);
+}
+
 let setCurrentSongPlaying = () => {
     state.player_state = PlayerState.PLAYING;
 };
@@ -93,5 +98,6 @@ export default {
     currentAlbum: computed(() => state.album),
     currentBand: computed(() => state.band),
     next: next,
-    prev: prev
+    prev: prev,
+    fetchSong: fetchSong
 }
