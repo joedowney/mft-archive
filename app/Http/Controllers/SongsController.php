@@ -11,9 +11,9 @@ class SongsController extends Controller
     {
         $song = Song::with('album.band')->findOrFail($song_id);
 
-        $path = $song->album->band->Sort . '/'
-            . $song->album->band->Path . '/'
-            . $song->FileName;
+        $path = $song->album->band->Sort.'/'
+            .$song->album->band->Path.'/'
+            .$song->FileName;
 
         $url = Storage::temporaryUrl($path, now()->addHour());
 

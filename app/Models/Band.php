@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Band extends Model
 {
@@ -18,12 +18,12 @@ class Band extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['Description'];
+    protected $guarded = [];
 
     public function getImagePathAttribute()
     {
         return $this->Image
-            ? url('images?path=_images/band/') . $this->Image
+            ? url('images?path=_images/band/').$this->Image
             : '/img/default_band.jpg';
     }
 
@@ -55,7 +55,7 @@ class Band extends Model
             'Path' => $this->Path,
             'Description' => $this->Description,
             'Members' => $this->Members,
-            'City' => optional($this->city)->City
+            'City' => optional($this->city)->City,
         ];
     }
 

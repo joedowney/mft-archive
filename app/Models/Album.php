@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Album extends Model
 {
@@ -33,8 +33,10 @@ class Album extends Model
 
     public function getImagePathAttribute()
     {
-        if ($this->Image)
-            return ('/images?path=_images/album/' . $this->Image);
+        if ($this->Image) {
+            return '/images?path=_images/album/'.$this->Image;
+        }
+
         return '/img/default_band.jpg';
     }
 
@@ -43,7 +45,7 @@ class Album extends Model
         return [
             'ID' => $this->ID,
             'Title' => $this->Title,
-            'Description' => $this->Description
+            'Description' => $this->Description,
         ];
     }
 

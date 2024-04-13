@@ -11,8 +11,9 @@ class SearchController extends Controller
 {
     public function search()
     {
-        if ( ! request('q'))
+        if (! request('q')) {
             return redirect()->to('/');
+        }
 
         $q = request('q');
 

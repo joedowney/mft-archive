@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Band;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
+use Inertia\Response;
+use App\Support\BandsAlphaList;
 use Illuminate\Support\Facades\Cache;
 
 class BandsController extends Controller
 {
-    public function index()
+    use BandsAlphaList;
+
+    public function index() : Response
     {
         $alphabet = $this->getBandsAlphabet();
 
         return Inertia::render('Bands/BandsIndex')->with('alphabet', $alphabet);
     }
 
-    public function alpha($letter)
+    public function alpha($letter) : Response
     {
         $bands = $this->getBandsByLetter($letter);
 
@@ -25,11 +28,11 @@ class BandsController extends Controller
             ->with('bands', $bands);
     }
 
-    public function show($slug)
+    public function show($slug) : Response
     {
-        $band = Cache::rememberForever('band_' . $slug, function() use ($slug) {
+        $band = Cache::rememberForever('band_'.$slug, function () use ($slug) {
             return Band::where('URL', $slug)
-                ->with('albums', function($query) {
+                ->with('albums', function ($query) {
                     return $query->with('songs')->withCount('songs');
                 })
                 ->with('relatedBands')
@@ -41,30 +44,8 @@ class BandsController extends Controller
 
     public function data($band_id)
     {
-        return Cache::rememberForever('band_data_' . $band_id, function() use ($band_id) {
+        return Cache::rememberForever('band_data_'.$band_id, function () use ($band_id) {
             return Band::where('ID', $band_id)->with('albums.songs')->firstOrFail();
-        });
-    }
-
-    private function getBandsAlphabet()
-    {
-        return Cache::rememberForever('alphabet', function() {
-            return Band::groupBy('Sort')
-                ->select('Sort', DB::raw('count(*) as total'))
-                ->orderBy('Sort')
-                ->get();
-        });
-    }
-
-    private function getBandsByLetter($letter)
-    {
-        return Cache::rememberForever('alpha_bands_' . $letter, function() use ($letter) {
-            return Band::where('Sort', $letter)
-                ->where('Enabled', 1)
-                ->orderBy('Alpha')
-                ->withCount('albums')
-                ->withCount('songs')
-                ->get();
         });
     }
 }

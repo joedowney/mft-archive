@@ -6,9 +6,9 @@ use App\Http\Controllers\BandsController;
 use App\Http\Controllers\SongsController;
 use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\CitiesController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\GenresController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -33,3 +33,5 @@ Route::get('cities', [CitiesController::class, 'index']);
 Route::get('cities/{slug}', [CitiesController::class, 'show']);
 
 Route::get('search', [SearchController::class, 'search']);
+
+include('auth.php');

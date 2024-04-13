@@ -26,7 +26,7 @@ class Song extends Model
     {
         return [
             'ID' => $this->ID,
-            'Title' => $this->Title
+            'Title' => $this->Title,
         ];
     }
 
@@ -34,5 +34,4 @@ class Song extends Model
     {
         return $query->where('Enabled', 1);
     }
-
 }

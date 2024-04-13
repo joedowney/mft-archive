@@ -10,7 +10,7 @@ class GenresController extends Controller
 {
     public function index()
     {
-        $genres = Cache::rememberForever('genres', function() {
+        $genres = Cache::rememberForever('genres', function () {
             return Genre::orderBy('Name')->withCount('bands')->get();
         });
 
@@ -20,14 +20,16 @@ class GenresController extends Controller
 
     public function show($slug)
     {
-        $genre = Cache::rememberForever('genre_' . $slug, function() use ($slug) {
+        $genre = Cache::rememberForever('genre_'.$slug, function () use ($slug) {
             return Genre::where('Slug', $slug)
-                ->with('bands', function($query) {
+                ->with('bands', function ($query) {
                     return $query->withCount('albums')->withCount('songs');
                 })->first();
         });
 
-        if ( ! $genre) abort(404);
+        if (! $genre) {
+            abort(404);
+        }
 
         return Inertia::render('Genres/GenresShow')->with('genre', $genre);
     }
