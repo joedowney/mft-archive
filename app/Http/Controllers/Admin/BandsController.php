@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Album;
 use App\Models\Band;
 use App\Models\City;
 use App\Models\Genre;
@@ -24,7 +25,7 @@ class BandsController extends Controller
             ->with('bands', $bands);
     }
 
-    public function edit($band_id) : Response
+    public function edit($band_id) //: Response
     {
         $band = Band::where('ID', $band_id)
             ->with('albums', function ($query) {
@@ -33,12 +34,16 @@ class BandsController extends Controller
             ->with('relatedBands')
             ->firstOrFail();
 
+        $albums = $band->albums()->select(['ID', 'Title'])->get();
+
         $genres = Genre::select(['ID', 'Name'])->get();
         $bands = Band::select(['ID', 'Name'])->get();
         $cities = City::select(['ID', 'City'])->get();
 
+
         return Inertia::render('Admin/Bands/Edit')
             ->with('band', $band)
+            ->with('albums', $albums)
             ->with('genres', $genres)
             ->with('bands', $bands)
             ->with('cities', $cities);

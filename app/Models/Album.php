@@ -16,6 +16,8 @@ class Album extends Model
 
     protected $appends = ['ImagePath'];
 
+    protected $guarded = [];
+
     public $timestamps = false;
 
     public function songs()
