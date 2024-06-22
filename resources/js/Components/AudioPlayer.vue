@@ -15,24 +15,25 @@ watch(Player.currentSong, () => {
     loadCurrentSong();
 });
 watch(Player.playerState, (newState) => {
-        if (newState === PlayerState.PLAYING) {
-            let promise = audio_el.value.play();
-            if (promise !== undefined) {
-                promise
-                    .then(() => {})
-                    .catch(() => {
-                        Player.toggleCurrentSongPlaying();
-                    });
-            }
+    if (newState === PlayerState.PLAYING) {
+        let promise = audio_el.value.play();
+        if (promise !== undefined) {
+            promise
+                .then(() => {})
+                .catch(() => {
+                    Player.toggleCurrentSongPlaying();
+                });
         }
-        else if (newState === PlayerState.PAUSED) {
-            audio_el.value.pause();
-        }
+    }
+    else if (newState === PlayerState.PAUSED) {
+        audio_el.value.pause();
+    }
 });
 
 let loadCurrentSong = () => {
     audio_el.value.src = '/songs/' + Player.currentSong.value.ID + '/play';
     audio_el.value.currentTime = 0;
+    audio_el.value.play();
     Player.setCurrentSongPlaying();
 };
 
