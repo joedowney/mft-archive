@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Band;
 use App\Models\City;
 use App\Models\Genre;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -39,7 +40,6 @@ class BandsController extends Controller
         $genres = Genre::select(['ID', 'Name'])->get();
         $bands = Band::select(['ID', 'Name'])->get();
         $cities = City::select(['ID', 'City'])->get();
-
 
         return Inertia::render('Admin/Bands/Edit')
             ->with('band', $band)
@@ -113,5 +113,47 @@ class BandsController extends Controller
         $band_ids = collect(request('bands'))->implode(',');
 
         $band->update(['Related' => $band_ids]);
+    }
+
+    public function create()
+    {
+        $genres = Genre::select(['ID', 'Name'])->get();
+        $bands = Band::select(['ID', 'Name'])->get();
+        $cities = City::select(['ID', 'City'])->get();
+
+        return Inertia::render('Admin/Bands/Create')
+            ->with('genres', $genres)
+            ->with('bands', $bands)
+            ->with('cities', $cities);
+    }
+
+    public function store()
+    {
+        $this->validate(request(), [
+            'name' => 'required',
+            'members' => '',
+            'city' => 'integer',
+            'description' => ''
+        ]);
+
+        $alpha = Str::lower(request('name'));
+        $slug = Str::slug(request('name'));
+        $id = Band::orderBy('ID', 'DESC')->first()->ID + 1;
+
+        $band = Band::create([
+            'ID' => $id,
+            'Name' => request('name'),
+            'URL' => $slug,
+            'Alpha' => $alpha,
+            'Sort' => Str::substr($alpha, 0, 1),
+            'Path' => $slug,
+            'Description' => request('description'),
+            'Members' => request('members'),
+            'CityID' => request('city'),
+            'Store_Btn' => '',
+            'Enabled' => 1
+        ]);
+
+        return $id;
     }
 }

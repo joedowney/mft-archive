@@ -1,9 +1,10 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link  } from '@inertiajs/vue3';
 import Page from "@/Components/Page.vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import EditAlbumInfoForm from "@/Components/EditAlbumInfoForm.vue";
 import EditAlbumImageForm from "@/Components/EditAlbumImageForm.vue";
+import EditAlbumSongs from "@/Components/EditAlbumSongs.vue";
 defineOptions({ layout:AdminLayout });
 let props = defineProps(['album']);
 </script>
@@ -13,9 +14,15 @@ let props = defineProps(['album']);
     <Head :title="album.Title"></Head>
 
     <Page>
-        <h1 class="mb-8">Edit Album</h1>
+        <h1 class="mb-2">Edit Album</h1>
+        <div class="mb-8">
+            <Link :href="'/admin/bands/' + album.BandID">
+                Back
+            </Link>
+        </div>
 
         <EditAlbumInfoForm :album="album"></EditAlbumInfoForm>
         <EditAlbumImageForm :album="album"></EditAlbumImageForm>
+        <EditAlbumSongs :album="album"></EditAlbumSongs>
     </Page>
 </template>

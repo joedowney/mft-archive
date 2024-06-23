@@ -14,7 +14,13 @@ html {
 body {
     font-family: 'Rubik', sans-serif;
     overscroll-behavior: none;
-    height: 100%;
+    height: 100vh;
+}
+
+@supports (height: 100dvh) {
+    body {
+        height: 100dvh;
+    }
 }
 
 h1 {
