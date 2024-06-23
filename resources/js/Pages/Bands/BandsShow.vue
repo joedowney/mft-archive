@@ -10,7 +10,7 @@ import PlayerStore from "@/PlayerStore.js";
 
 let props = defineProps(['band']);
 let copySongToClipboard = async (song_id) => {
-    let url = window.location.protocol + '://' + window.location.host + '/bands/' + props.band.URL + '#song_' + song_id;
+    let url = window.location.protocol + '//' + window.location.host + '/bands/' + props.band.URL + '#song_' + song_id;
     await navigator.clipboard.writeText(url);
 }
 onMounted(async () => {
