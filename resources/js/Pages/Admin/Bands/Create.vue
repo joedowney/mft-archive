@@ -2,9 +2,6 @@
 import { Head } from '@inertiajs/vue3';
 import Page from "@/Components/Page.vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import EditBandImageForm from "@/Components/EditBandImageForm.vue";
-import EditBandGenresForm from "@/Components/EditBandGenresForm.vue";
-import EditBandRelatedBandsForm from "@/Components/EditBandRelatedBandsForm.vue";
 import NewBandInfoForm from "@/Components/NewBandInfoForm.vue";
 defineOptions({ layout:AdminLayout });
 let props = defineProps(['cities']);

@@ -64,6 +64,8 @@ class BandsController extends Controller
             'URL' => request('url'),
             'Alpha' => request('alpha')
         ]);
+
+        cache()->flush();
     }
 
     public function updateInfo($band_id)
@@ -75,6 +77,8 @@ class BandsController extends Controller
             'Description' => request('description'),
             'CityID' => request('city')
         ]);
+
+        cache()->flush();
     }
 
     public function updateImage($band_id)
@@ -88,6 +92,8 @@ class BandsController extends Controller
         $file->storeAs('_images/band/', $filename);
 
         $band->update(['Image' => $filename]);
+
+        cache()->flush();
     }
 
     public function deleteImage($band_id)
@@ -95,6 +101,8 @@ class BandsController extends Controller
         $band = Band::findOrFail($band_id);
 
         $band->update(['Image' => '']);
+
+        cache()->flush();
     }
 
     public function updateGenres($band_id)
@@ -104,6 +112,8 @@ class BandsController extends Controller
         $genre_ids = collect(request('genres'))->implode(',');
 
         $band->update(['GenreID' => $genre_ids]);
+
+        cache()->flush();
     }
 
     public function updateRelatedBands($band_id)
@@ -113,6 +123,8 @@ class BandsController extends Controller
         $band_ids = collect(request('bands'))->implode(',');
 
         $band->update(['Related' => $band_ids]);
+
+        cache()->flush();
     }
 
     public function create()
@@ -140,7 +152,7 @@ class BandsController extends Controller
         $slug = Str::slug(request('name'));
         $id = Band::orderBy('ID', 'DESC')->first()->ID + 1;
 
-        $band = Band::create([
+        Band::create([
             'ID' => $id,
             'Name' => request('name'),
             'URL' => $slug,
@@ -153,6 +165,8 @@ class BandsController extends Controller
             'Store_Btn' => '',
             'Enabled' => 1
         ]);
+
+        cache()->flush();
 
         return $id;
     }

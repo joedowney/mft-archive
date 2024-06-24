@@ -14,6 +14,8 @@ class Song extends Model
 
     protected $primaryKey = 'ID';
 
+    protected $guarded = [];
+
     public $timestamps = false;
 
     public function album()

@@ -27,6 +27,8 @@ class AlbumsController extends Controller
             'Title' => request('title'),
             'Description' => request('description') ?? ''
         ]);
+
+        cache()->flush();
     }
 
     public function updateImage($album_id)
@@ -40,6 +42,8 @@ class AlbumsController extends Controller
         $file->storeAs('_images/album/', $filename);
 
         $album->update(['Image' => $filename]);
+
+        cache()->flush();
     }
 
     public function deleteImage($album_id)
@@ -47,6 +51,8 @@ class AlbumsController extends Controller
         $album = Album::findOrFail($album_id);
 
         $album->update(['Image' => '']);
+
+        cache()->flush();
     }
 
     public function store()
@@ -66,6 +72,8 @@ class AlbumsController extends Controller
             'Title' => request('title'),
             'Description' => '',
         ]);
+
+        cache()->flush();
 
         return $id;
     }

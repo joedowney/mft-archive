@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SongsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AlbumsController;
 use App\Http\Controllers\Admin\BandsController;
@@ -25,4 +26,7 @@ Route::middleware(['auth.session', 'web'])->group(function() {
     Route::post('/albums/{album_id}', [AlbumsController::class, 'update']);
     Route::post('/albums/{album_id}/image', [AlbumsController::class, 'updateImage']);
     Route::post('/albums/{album_id}/image/delete', [AlbumsController::class, 'deleteImage']);
+
+    Route::get('/albums/{album_id}/songs/new', [SongsController::class, 'create']);
+    Route::post('/songs', [SongsController::class, 'store']);
 });
