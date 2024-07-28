@@ -15,6 +15,14 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LMEJX3CZ6C"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){ dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-LMEJX3CZ6C');
+        </script>
     </head>
     <body class="font-sans antialiased text-gray-200"
         style="background: rgb(31,41,54); background: linear-gradient(350deg, #121b2c 55%, rgb(0 0 0) 100%)"
