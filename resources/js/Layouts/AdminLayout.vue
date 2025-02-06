@@ -1,9 +1,13 @@
 <script setup>
 
 import Page from "@/Components/Page.vue";
-import {usePage, Link} from "@inertiajs/vue3";
+import {usePage, Link, router} from "@inertiajs/vue3";
 
 let page = usePage();
+
+let logout = () => {
+    router.post('/logout');
+};
 
 </script>
 
@@ -15,10 +19,16 @@ let page = usePage();
             </Link>
             <h1 class="flex-1 mb-0">Admin</h1>
             <div class="flex items-center gap-4">
-                <span class="text-sm">{{ page.props.auth.user.name }}</span>
-                <div class="p-3 flex items-center bg-gray-800 rounded-full h-10 w-10 cursor-pointer" title="Log out">
+                <span class="text-sm">
+                    {{ page.props.auth.user.name }}
+                </span>
+                <button
+                    class="p-3 flex items-center bg-gray-800 rounded-full h-10 w-10 cursor-pointer"
+                    title="Log out"
+                    @click="logout"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" height="1em"  viewBox="0 0 512 512" style="fill:#ffffff"><path d="M505 273c9.4-9.4 9.4-24.6 0-33.9L377 111c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l87 87L184 232c-13.3 0-24 10.7-24 24s10.7 24 24 24l246.1 0-87 87c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L505 273zM168 80c13.3 0 24-10.7 24-24s-10.7-24-24-24L88 32C39.4 32 0 71.4 0 120L0 392c0 48.6 39.4 88 88 88l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0c-22.1 0-40-17.9-40-40l0-272c0-22.1 17.9-40 40-40l80 0z"/></svg>
-                </div>
+                </button>
             </div>
         </div>
 

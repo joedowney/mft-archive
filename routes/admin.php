@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SongsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AlbumsController;
 use App\Http\Controllers\Admin\BandsController;
 use App\Http\Controllers\Admin\DashboardController;
 
-Route::middleware(['auth.session', 'web'])->group(function() {
+Route::middleware(['auth', 'web', 'admin'])->group(function() {
     Route::get('/', [DashboardController::class, 'show']);
     Route::get('/bands/alpha/{letter}', [BandsController::class, 'alpha']);
 
@@ -29,4 +30,6 @@ Route::middleware(['auth.session', 'web'])->group(function() {
 
     Route::get('/albums/{album_id}/songs/new', [SongsController::class, 'create']);
     Route::post('/songs', [SongsController::class, 'store']);
+
+    Route::post('/search', [SearchController::class, 'search']);
 });

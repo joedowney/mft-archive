@@ -3,6 +3,7 @@
 import { Head, Link } from "@inertiajs/vue3";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Page from "@/Components/Page.vue";
+import AdminSearch from "@/Components/AdminSearch.vue";
 defineOptions({ layout:AdminLayout });
 defineProps(['alphabet']);
 let heading = function(alpha) {
@@ -15,6 +16,11 @@ let heading = function(alpha) {
     <Head title="Dashboard"></Head>
 
     <page>
+
+        <div class="my-8">
+            <AdminSearch></AdminSearch>
+        </div>
+
         <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
             <Link href="/admin/bands/new"
                   class="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 block mb-6 md:mb-0 flex items-center justify-center"
