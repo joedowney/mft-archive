@@ -21,12 +21,13 @@ let isLoading = computed(() => {
 let copySongLink = (song_id) => {
     emit('copy-song-to-clipboard', song_id);
     copied.value = true;
-    setTimeout(() => copied.value = false, 3000);}
+    setTimeout(() => copied.value = false, 3000);
+}
 </script>
 
 <template>
     <div
-        class="p-2 mb-0 md:mb-2 flex items-start items-center rounded-lg group hover:bg-black"
+        class="p-2 mb-0 md:mb-2 flex items-center rounded-lg group hover:bg-black"
         :class="{'bg-gray-800' : Player.currentSong.value?.ID === song.ID}"
     >
 

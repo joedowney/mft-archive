@@ -33,7 +33,7 @@ class BandsController extends Controller
         $band = Cache::rememberForever('band_'.$slug, function () use ($slug) {
             return Band::where('URL', $slug)
                 ->with('albums', function ($query) {
-                    return $query->with('songs')->withCount('songs');
+                    return $query->with('band')->with('songs')->withCount('songs');
                 })
                 ->with('relatedBands')
                 ->firstOrFail();

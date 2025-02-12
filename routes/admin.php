@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AlbumsController;
+use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SongsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BandsController;
@@ -33,5 +34,5 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     Route::delete('/songs/{song_id}', [SongsController::class, 'delete']);
     Route::patch('/songs/{song_id}', [SongsController::class, 'update']);
 
-    Route::post('/search', [\App\Http\Controllers\Admin\SearchController::class, 'search']);
+    Route::post('/search', [SearchController::class, 'search']);
 });

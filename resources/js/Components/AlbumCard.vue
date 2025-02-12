@@ -3,11 +3,12 @@ import Song from "@/Components/Song.vue";
 import LinkIcon from "@/Components/LinkIcon.vue";
 import {ref} from "vue";
 
-defineProps(['album', 'band']);
+let props = defineProps(['album']);
 let emit = defineEmits(['copy-album-link']);
 let copied = ref(false);
-let copyAlbumLink = (album_id) => {
-    emit('copy-album-link', album_id);
+let copyAlbumLink = async (album_id) => {
+    let url = window.location.protocol + '//' + window.location.host + '/bands/' + props.album.band.URL + '#album_' + album_id;
+    await navigator.clipboard.writeText(url);
     copied.value = true;
     setTimeout(() => copied.value = false, 3000);
 }
