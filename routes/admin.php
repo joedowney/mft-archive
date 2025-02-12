@@ -32,4 +32,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     Route::post('/songs/update-order', [SongsController::class, 'updateOrder']);
     Route::delete('/songs/{song_id}', [SongsController::class, 'delete']);
     Route::patch('/songs/{song_id}', [SongsController::class, 'update']);
+
+    Route::post('/search', [\App\Http\Controllers\Admin\SearchController::class, 'search']);
 });
