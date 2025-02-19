@@ -63,6 +63,8 @@ class SongsController extends Controller
         $song = Song::findOrFail($song_id);
 
         $song->update(['title' => request('title')]);
+
+        cache()->flush();
     }
 
     public function updateOrder()
@@ -79,6 +81,8 @@ class SongsController extends Controller
             $album->songs()->where('ID', $id)->update(['Ord' => $i]);
             $i++;
         }
+
+        cache()->flush();
     }
 
     public function delete($song_id)
