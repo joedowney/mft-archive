@@ -2,7 +2,7 @@
 import SectionHeading from "@/Components/Forms/SectionHeading.vue";
 import draggable from 'vuedraggable';
 import { ref, defineComponent } from "vue";
-import { router } from '@inertiajs/vue3';
+import {w} from "../../../public/build/assets/app-djQG3r2W.js";
 
 let props = defineProps(['album']);
 let localSongs = ref([...props.album.songs]);
@@ -33,7 +33,7 @@ const saveTitle = async (song) => {
     }
 
     try {
-        const response = await axios.patch(`/admin/songs/${song.ID}`, {
+        await axios.patch(`/admin/songs/${song.ID}`, {
             title: editingTitle.value
         });
 
@@ -67,10 +67,16 @@ const handleDrop = async (e) => {
     uploadProgress.value = files.map((file, index) => ({
         id: index,
         filename: file.name,
+        status: 'uploading', // 'uploading', 'success', 'error'
         progress: 0
     }));
 
+    // Keep track of completed uploads to know when all are done
+    let completedUploads = 0;
+    const totalUploads = files.length;
+
     try {
+        // Create an array of upload promises to maintain parallel uploads
         const uploadPromises = files.map(async (file, index) => {
             const formData = new FormData();
             formData.append('file', file);
@@ -80,39 +86,61 @@ const handleDrop = async (e) => {
                 let response = await axios.post('/admin/songs', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress: (progressEvent) => {
-                        const percentCompleted = (progressEvent.loaded * 100) / progressEvent.total;
-                        updateFileProgress(index, percentCompleted);
                     }
                 });
+
+                // Add the new song to the list
                 localSongs.value.push(response.data);
+
+                // Mark this upload as successful
+                const fileProgress = uploadProgress.value.find(p => p.id === index);
+                if (fileProgress) {
+                    fileProgress.status = 'success';
+                }
+
+                // Wait 2 seconds before removing from the list
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Remove this file from the upload progress list
+                uploadProgress.value = uploadProgress.value.filter(p => p.id !== index);
+
+                // Increment completed count
+                completedUploads++;
+
+                // If all uploads complete, set uploading to false
+                if (completedUploads === totalUploads) {
+                    uploading.value = false;
+                }
+
+                return response;
             } catch (error) {
                 const fileProgress = uploadProgress.value.find(p => p.id === index);
                 if (fileProgress) {
-                    fileProgress.error = true;
+                    fileProgress.status = 'error';
                     fileProgress.errorMessage = error.response?.data?.message || 'Upload failed';
                 }
+
+                // Still count failed uploads as completed for tracking purposes
+                completedUploads++;
+                console.error('Upload failed for file:', file.name, error);
                 throw error;
             }
         });
 
-        await Promise.all(uploadPromises);
+        // Wait for all uploads to complete (success or failure)
+        await Promise.allSettled(uploadPromises);
     } catch (error) {
-        console.error('Upload failed:', error);
+        console.error('Upload process failed:', error);
     } finally {
-        uploading.value = false;
-    }
-}
-
-const updateFileProgress = (fileId, progress) => {
-    const fileProgress = uploadProgress.value.find(p => p.id === fileId);
-    if (fileProgress) {
-        fileProgress.progress = progress;
+        // Safety check to ensure uploading state gets reset
+        if (completedUploads === totalUploads || uploadProgress.value.length === 0) {
+            uploading.value = false;
+        }
     }
 }
 
 const deleteSong = async (songId) => {
+
     if (!confirm('Are you sure you want to delete this song?')) {
         return;
     }
@@ -120,15 +148,15 @@ const deleteSong = async (songId) => {
     try {
         await axios.delete(`/admin/songs/${songId}`);
         localSongs.value = localSongs.value.filter(song => song.ID !== songId);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Failed to delete song:', error);
         alert('Failed to delete song');
     }
 }
 
-defineComponent({
-    draggable
-})
+defineComponent({draggable});
+
 </script>
 
 <template>
@@ -164,15 +192,29 @@ defineComponent({
                         <span class="text-sm font-medium text-gray-300">
                             {{ file.filename }}
                         </span>
-                        <span class="text-sm text-gray-400">
-                            {{ Math.round(file.progress) }}%
+                        <span class="text-sm" :class="{
+                            'text-gray-400': file.status === 'uploading',
+                            'text-green-400 animate-pulse-subtle': file.status === 'success',
+                            'text-red-400': file.status === 'error'
+                        }">
+                            {{ file.status === 'uploading' ? 'Uploading...' :
+                            file.status === 'success' ? 'Complete!' :
+                                'Failed' }}
                         </span>
                     </div>
-                    <div class="w-full bg-gray-700 rounded-full h-2.5">
+                    <div class="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
                         <div
-                            class="bg-blue-500 h-2.5 rounded-full transition-all duration-300"
-                            :style="{ width: `${file.progress}%` }"
+                            :class="{
+                                'animate-progress': file.status === 'uploading',
+                                'bg-green-500 animate-pulse-subtle': file.status === 'success',
+                                'bg-red-500': file.status === 'error'
+                            }"
+                            class="h-2.5 rounded-full transition-all duration-300"
+                            :style="file.status === 'uploading' ? {} : { width: '100%' }"
                         ></div>
+                    </div>
+                    <div v-if="file.status === 'error'" class="mt-1 text-xs text-red-400">
+                        {{ file.errorMessage || 'Upload failed' }}
                     </div>
                 </div>
             </div>
@@ -254,3 +296,35 @@ defineComponent({
         </div>
     </div>
 </template>
+
+<style>
+@keyframes barberpole {
+    0% { background-position: 0; }
+    100% { background-position: 50px; }
+}
+
+.animate-progress {
+    background-image: linear-gradient(
+        45deg,
+        rgba(59, 130, 246, 0.6) 25%,
+        rgba(59, 130, 246, 0.9) 25%,
+        rgba(59, 130, 246, 0.9) 50%,
+        rgba(59, 130, 246, 0.6) 50%,
+        rgba(59, 130, 246, 0.6) 75%,
+        rgba(59, 130, 246, 0.9) 75%,
+        rgba(59, 130, 246, 0.9)
+    );
+    background-size: 50px 50px;
+    animation: barberpole 1s linear infinite;
+    width: 100%;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+.animate-pulse-subtle {
+    animation: pulse 2s ease-in-out infinite;
+}
+</style>

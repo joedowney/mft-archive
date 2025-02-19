@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Album;
 use App\Models\Song;
 use App\Support\MP3File;
+use App\Support\SongDuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -30,9 +31,7 @@ class SongsController extends Controller
 
         $file = request()->file('file');
         $filename = $file->getClientOriginalName();
-        $mp3 = new MP3File($file->getPathname());
-        $seconds = $mp3->getDuration();
-        $duration = (floor($seconds/60) % 60) . ':' . str_pad($seconds % 60, 2, '0', STR_PAD_LEFT);
+        $duration = (new SongDuration())->getDuration($file);
         $file_path = $album->band->Sort.'/'
             . $album->band->Path.'/'
             . $filename;

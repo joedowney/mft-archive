@@ -6,9 +6,7 @@ import draggable from 'vuedraggable';
 import {reactive, ref, defineComponent} from "vue";
 import {router} from "@inertiajs/vue3";
 
-defineComponent({
-    draggable
-});
+defineComponent(draggable);
 
 let props = defineProps(['albums', 'band']);
 
