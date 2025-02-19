@@ -2,7 +2,6 @@
 import SectionHeading from "@/Components/Forms/SectionHeading.vue";
 import draggable from 'vuedraggable';
 import { ref, defineComponent } from "vue";
-import {w} from "../../../public/build/assets/app-djQG3r2W.js";
 
 let props = defineProps(['album']);
 let localSongs = ref([...props.album.songs]);
