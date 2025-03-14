@@ -21,4 +21,14 @@ yarn-error.log
 /.idea
 /.nova
 /.vscode
+<<<<<<< Updated upstream
 /.zed
+=======
+<<<<<<< Updated upstream
+/data.ms
+bootstrap/ssr
+=======
+/.zed
+/data.ms
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

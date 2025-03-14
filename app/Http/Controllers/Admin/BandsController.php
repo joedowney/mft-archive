@@ -34,8 +34,8 @@ class BandsController extends Controller
             })
             ->with('relatedBands')
             ->firstOrFail();
-
-        $albums = $band->albums()->select(['ID', 'Title'])->get();
+            
+        $albums = $band->albums()->select(['ID', 'Title', 'Image'])->get();
 
         $genres = Genre::select(['ID', 'Name'])->get();
         $bands = Band::select(['ID', 'Name'])->get();

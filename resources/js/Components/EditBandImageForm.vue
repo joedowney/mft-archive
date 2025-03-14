@@ -55,9 +55,9 @@ function remove() {
             <div class="flex gap-4 items-start">
 
                 <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Upload file</label>
+                    <label class="block mb-2 text-sm font-medium text-white" for="image">Upload file</label>
                     <input
-                        class="block w-full border rounded-lg cursor-pointer bg-gray-50 text-gray-400 focus:outline-none dark:bg-gray-700 border-gray-600 placeholder-gray-400"
+                        class="block w-full border rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400"
                         type="file"
                         id="image"
                         ref="input"
