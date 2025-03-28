@@ -36,72 +36,66 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">
+            <h2 class="text-lg font-medium text-white">
                 Update Password
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="mt-1 text-sm text-gray-300">
                 Ensure your account is using a long, random password to stay
                 secure.
             </p>
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
-            <div>
-                <InputLabel for="current_password" value="Current Password" />
-
-                <TextInput
+            <div class="mb-5">
+                <label for="current_password" class="block mb-2 text-sm font-medium text-white">Current Password</label>
+                <input
                     id="current_password"
                     ref="currentPasswordInput"
                     v-model="form.current_password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                     autocomplete="current-password"
+                    required
                 />
-
-                <InputError
-                    :message="form.errors.current_password"
-                    class="mt-2"
-                />
+                <div v-if="form.errors.current_password" class="text-red-500 text-xs mt-1">{{ form.errors.current_password }}</div>
             </div>
 
-            <div>
-                <InputLabel for="password" value="New Password" />
-
-                <TextInput
+            <div class="mb-5">
+                <label for="password" class="block mb-2 text-sm font-medium text-white">New Password</label>
+                <input
                     id="password"
                     ref="passwordInput"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                     autocomplete="new-password"
+                    required
                 />
-
-                <InputError :message="form.errors.password" class="mt-2" />
+                <div v-if="form.errors.password" class="text-red-500 text-xs mt-1">{{ form.errors.password }}</div>
             </div>
 
-            <div>
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
+            <div class="mb-5">
+                <label for="password_confirmation" class="block mb-2 text-sm font-medium text-white">Confirm Password</label>
+                <input
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                     autocomplete="new-password"
+                    required
                 />
-
-                <InputError
-                    :message="form.errors.password_confirmation"
-                    class="mt-2"
-                />
+                <div v-if="form.errors.password_confirmation" class="text-red-500 text-xs mt-1">{{ form.errors.password_confirmation }}</div>
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <button
+                    type="submit"
+                    class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+                    :disabled="form.processing"
+                >
+                    Update Password
+                </button>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -111,7 +105,7 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
+                        class="text-sm text-green-400"
                     >
                         Saved.
                     </p>

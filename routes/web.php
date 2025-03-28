@@ -12,7 +12,7 @@ use App\Http\Controllers\ImagesController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
-});
+})->name('dashboard');
 
 Route::get('images', [ImagesController::class, 'show']);
 
@@ -33,6 +33,13 @@ Route::get('cities', [CitiesController::class, 'index']);
 Route::get('cities/{slug}', [CitiesController::class, 'show']);
 
 Route::get('search', [SearchController::class, 'search']);
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::put('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('password.update');
+});
 
 require __DIR__.'/auth.php';
 

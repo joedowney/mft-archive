@@ -25,11 +25,11 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">
+            <h2 class="text-lg font-medium text-white">
                 Profile Information
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="mt-1 text-sm text-gray-300">
                 Update your account's profile information and email address.
             </p>
         </header>
@@ -38,45 +38,41 @@ const form = useForm({
             @submit.prevent="form.patch(route('profile.update'))"
             class="mt-6 space-y-6"
         >
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
+            <div class="mb-5">
+                <label for="name" class="block mb-2 text-sm font-medium text-white">Name</label>
+                <input 
                     id="name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                     v-model="form.name"
                     required
                     autofocus
                     autocomplete="name"
                 />
-
-                <InputError class="mt-2" :message="form.errors.name" />
+                <div v-if="form.errors.name" class="text-red-500 text-xs mt-1">{{ form.errors.name }}</div>
             </div>
 
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
+            <div class="mb-5">
+                <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
+                <input 
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                     v-model="form.email"
                     required
                     autocomplete="username"
                 />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+                <div v-if="form.errors.email" class="text-red-500 text-xs mt-1">{{ form.errors.email }}</div>
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800">
+                <p class="mt-2 text-sm text-gray-300">
                     Your email address is unverified.
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="text-blue-400 hover:text-blue-300 focus:outline-none"
                     >
                         Click here to re-send the verification email.
                     </Link>
@@ -84,14 +80,20 @@ const form = useForm({
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
+                    class="mt-2 text-sm font-medium text-green-400"
                 >
                     A new verification link has been sent to your email address.
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <button
+                    type="submit"
+                    class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+                    :disabled="form.processing"
+                >
+                    Save
+                </button>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -101,7 +103,7 @@ const form = useForm({
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
+                        class="text-sm text-green-400"
                     >
                         Saved.
                     </p>

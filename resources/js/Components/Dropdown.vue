@@ -42,6 +42,8 @@ const alignmentClasses = computed(() => {
 });
 
 const open = ref(false);
+
+defineExpose({ open });
 </script>
 
 <template>

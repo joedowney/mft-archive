@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BandsController;
 use App\Http\Controllers\Admin\DashboardController;
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
+Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(function() {
 
     Route::get('/', [DashboardController::class, 'show']);
 
