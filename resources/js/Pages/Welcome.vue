@@ -29,6 +29,15 @@ import Page from "@/Components/Page.vue";
             </Link>
         </div>
 
+        <div class="flex justify-center mb-8">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf92EeaMJzq1oMHHPpv52PHbrWs34vdtcYjmE8YmIWdzw2ONg/viewform"
+               class="rounded-lg bg-emerald-700 px-6 py-3 text-white font-semibold hover:bg-emerald-600 transition duration-200 text-center"
+               target="_blank"
+            >
+                Click here to submit music for the MFT archive
+            </a>
+        </div>
+
         <div class="text-base mt-8 mx-10">
             The Musical Family Tree archive was started in 2004 and serves as a crowd sourced MP3 archive of
             the Indiana music scene with a focus on the late 1970s through the 2010s. The MFT archive contains

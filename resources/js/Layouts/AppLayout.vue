@@ -27,10 +27,10 @@ const userDropdown = ref(null);
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" style="width: 30px; height: 30px;">
                                 <path class="fa-secondary" opacity=".4" d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM113 384.2c22.1-38.3 63.5-64.2 111-64.2l64 0c47.4 0 88.9 25.8 111 64.2C363.8 423.3 312.8 448 256 448s-107.8-24.7-143-63.8zM328 200a72 72 0 1 1 -144 0 72 72 0 1 1 144 0z"/><path class="fa-primary" d="M256 272a72 72 0 1 0 0-144 72 72 0 1 0 0 144zm0 176c56.8 0 107.8-24.7 143-63.8C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8z"/>
                             </svg>
-                            <svg class="ml-2 -mr-0.5 h-4 w-4 transition-transform duration-200" 
-                                 :class="{ 'rotate-180': userDropdown?.open }" 
-                                 xmlns="http://www.w3.org/2000/svg" 
-                                 viewBox="0 0 20 20" 
+                            <svg class="ml-2 -mr-0.5 h-4 w-4 transition-transform duration-200"
+                                 :class="{ 'rotate-180': userDropdown?.open }"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20"
                                  fill="currentColor">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
@@ -40,10 +40,10 @@ const userDropdown = ref(null);
                         <DropdownLink :href="route('profile.edit')" class="text-gray-700">
                             Profile
                         </DropdownLink>
-                        <DropdownLink 
-                            :href="route('logout')" 
-                            method="post" 
-                            as="button" 
+                        <DropdownLink
+                            :href="route('logout')"
+                            method="post"
+                            as="button"
                             class="text-gray-700"
                             :preserve-scroll="true"
                         >
@@ -52,7 +52,7 @@ const userDropdown = ref(null);
                     </template>
                 </Dropdown>
             </template>
-            <template v-else>
+            <template v-else-if="false">
                 <div class="flex gap-4 ml-3">
                     <Link :href="route('login')" class="text-sm text-white whitespace-nowrap">
                         Log in
