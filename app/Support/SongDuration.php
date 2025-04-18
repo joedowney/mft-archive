@@ -6,14 +6,19 @@ class SongDuration
 {
     public function getDuration($file)
     {
-        $ext = $file->getClientOriginalExtension();
-        if ($ext === 'wav') {
-            return $this->wav($file);
+        try {
+            $ext = $file->getClientOriginalExtension();
+            if ($ext === 'wav') {
+                return $this->wav($file);
+            }
+            elseif ($ext === 'mp3') {
+                return $this->mp3($file);
+            }
+            return 0;
         }
-        elseif ($ext === 'mp3') {
-            return $this->mp3($file);
+        catch (\Exception $e) {
+            return 0;
         }
-        return 0;
     }
 
     public function mp3($file)
