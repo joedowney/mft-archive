@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
 class Song extends Model
@@ -37,5 +38,13 @@ class Song extends Model
     protected function makeAllSearchableUsing(Builder $query)
     {
         return $query->where('Enabled', 1);
+    }
+
+    public function userFavorite(): HasOne|false
+    {
+        if ( ! auth()->check())
+            return false;
+
+        return $this->hasOne(Favorite::class)->where('user_id', auth()->id);
     }
 }

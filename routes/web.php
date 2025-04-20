@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\SearchController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SongsController;
 use App\Http\Controllers\BandsController;
 use App\Http\Controllers\AlbumsController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\GenresController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\FavoritesController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -35,10 +38,11 @@ Route::get('cities/{slug}', [CitiesController::class, 'show']);
 Route::get('search', [SearchController::class, 'search']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::put('password', [App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('password.update');
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('favorite', [FavoritesController::class, 'update'])->name('favorite.update');
 });
 
 require __DIR__.'/auth.php';
