@@ -13,7 +13,7 @@ let page = usePage();
 let user = page.props.auth?.user;
 
 let props = defineProps(['song']);
-let emit = defineEmits(['copy-song-to-clipboard']);
+let emit = defineEmits(['copy-song-to-clipboard', 'play-song']);
 
 let copied = ref(false);
 
@@ -27,6 +27,17 @@ let copySongLink = (song_id) => {
     emit('copy-song-to-clipboard', song_id);
     copied.value = true;
     setTimeout(() => copied.value = false, 3000);
+}
+
+let playSong = () => {
+    // Check if a parent component is handling song playback
+    if (emit('play-song', props.song)) {
+        // The event was handled by a parent
+        return;
+    }
+
+    // Default behavior - use the standard Player.playSong
+    Player.playSong(props.song);
 }
 
 </script>
@@ -50,7 +61,7 @@ let copySongLink = (song_id) => {
 
         <LoadingIcon v-else-if="isLoading" class="mr-5"></LoadingIcon>
 
-        <PlayIcon v-else class="mr-5 cursor-pointer text-2xl h-8 w-6 text-center" @click.prevent="() => Player.playSong(song)"></PlayIcon>
+        <PlayIcon v-else class="mr-5 cursor-pointer text-2xl h-8 w-6 text-center" @click.prevent="playSong"></PlayIcon>
 
         <div class="font-bold flex-1">{{ song.Title }}</div>
 
@@ -65,10 +76,11 @@ let copySongLink = (song_id) => {
             {{ song.Duration }}
         </div>
 
-        <div class="text-gray-400 ml-3 mr-1 opacity-1 sm:opacity-0 group-hover:opacity-100 relative">
+        <div class="text-gray-400 ml-3 mr-1 opacity-0 group-hover:opacity-100 relative hidden sm:block">
             <div
                 v-if="copied"
-                class="absolute -top-10 -left-8 p-2 rounded bg-blue-500 text-xs text-white whitespace-nowrap">
+                class="absolute -top-10 -left-8 p-2 rounded bg-blue-500 text-xs text-white whitespace-nowrap"
+            >
                 URL Copied!
             </div>
             <a href="#" @click.prevent="() => copySongLink(song.ID)">

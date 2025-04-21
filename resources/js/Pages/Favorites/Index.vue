@@ -1,9 +1,24 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import Page from "@/Components/Page.vue";
 import Song from "@/Components/Song.vue";
+import Player, { PlaylistSource } from "@/PlayerStore.js";
 
-defineProps(['songs']);
+const props = defineProps(['songs']);
+
+// When this page loads, we'll set the Player's custom playlist to our favorites
+onMounted(() => {
+    if (props.songs && props.songs.length > 0) {
+        Player.setCustomPlaylist(props.songs);
+    }
+});
+
+const playSong = (song) => {
+    // When playing from the favorites page, set the playlist source to CUSTOM
+    // and provide the favorites list as the custom playlist
+    Player.playSong(song, PlaylistSource.CUSTOM, props.songs);
+};
 </script>
 
 <template>
@@ -19,6 +34,7 @@ defineProps(['songs']);
                     :key="song.ID" 
                     :song="song"
                     class="mb-2"
+                    @play-song="playSong"
                 />
             </div>
         </div>

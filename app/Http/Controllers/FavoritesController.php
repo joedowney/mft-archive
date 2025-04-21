@@ -11,7 +11,8 @@ class FavoritesController extends Controller
     {
         $favorites = auth()->user()->favorites()
             ->with('song.album.band')
-            ->latest()
+            ->with('song.userFavorite')
+            ->orderBy('favorites.created_at')
             ->get();
 
         return Inertia::render('Favorites/Index', [
