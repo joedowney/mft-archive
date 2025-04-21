@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Scout\Searchable;
 
@@ -21,13 +22,13 @@ class Song extends Model
 
     public $timestamps = false;
 
-    public function album()
+    public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class, 'AlbumID', 'ID')
             ->where('mft_albums.Enabled', 1);
     }
 
-    public function toSearchableArray()
+    public function toSearchableArray() : array
     {
         return [
             'ID' => $this->ID,
@@ -45,6 +46,6 @@ class Song extends Model
         if ( ! auth()->check())
             return false;
 
-        return $this->hasOne(Favorite::class)->where('user_id', auth()->id);
+        return $this->hasOne(Favorite::class, 'song_id', 'ID')->where('user_id', auth()->id());
     }
 }

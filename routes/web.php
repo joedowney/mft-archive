@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
     Route::post('favorite', [FavoritesController::class, 'update'])->name('favorite.update');
+    Route::get('favorites', [FavoritesController::class, 'index'])->name('favorites.index');
 });
 
 require __DIR__.'/auth.php';

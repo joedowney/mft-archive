@@ -6,6 +6,11 @@ import EqualizerIcon from "@/Components/EqualizerIcon.vue";
 import LoadingIcon from "@/Components/LoadingIcon.vue";
 import PlayIcon from "@/Components/PlayIcon.vue";
 import LinkIcon from "@/Components/LinkIcon.vue";
+import {usePage} from "@inertiajs/vue3";
+import Favorite from "@/Components/Favorite.vue";
+
+let page = usePage();
+let user = page.props.auth?.user;
 
 let props = defineProps(['song']);
 let emit = defineEmits(['copy-song-to-clipboard']);
@@ -23,6 +28,7 @@ let copySongLink = (song_id) => {
     copied.value = true;
     setTimeout(() => copied.value = false, 3000);
 }
+
 </script>
 
 <template>
@@ -47,6 +53,13 @@ let copySongLink = (song_id) => {
         <PlayIcon v-else class="mr-5 cursor-pointer text-2xl h-8 w-6 text-center" @click.prevent="() => Player.playSong(song)"></PlayIcon>
 
         <div class="font-bold flex-1">{{ song.Title }}</div>
+
+        <favorite
+            v-if="user"
+            :song="song"
+            class="mr-2"
+            :class="{'sm:opacity-0 group-hover:opacity-100':!song.user_favorite}"
+        ></favorite>
 
         <div class="text-sm text-gray-400" v-if="song.Duration !== '00:00'">
             {{ song.Duration }}

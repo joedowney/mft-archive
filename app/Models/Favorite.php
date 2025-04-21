@@ -11,7 +11,7 @@ class Favorite extends Model
 
     public function song(): BelongsTo
     {
-        return $this->belongsTo(Song::class, 'ID', 'song_id');
+        return $this->belongsTo(Song::class, 'song_id', 'ID');
     }
 
     public function user(): BelongsTo

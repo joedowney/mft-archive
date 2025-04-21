@@ -40,6 +40,9 @@ const userDropdown = ref(null);
                         <DropdownLink :href="route('profile.edit')" class="text-gray-700">
                             Profile
                         </DropdownLink>
+                        <DropdownLink :href="route('favorites.index')" class="text-gray-700">
+                            My Favorites
+                        </DropdownLink>
                         <DropdownLink
                             :href="route('logout')"
                             method="post"

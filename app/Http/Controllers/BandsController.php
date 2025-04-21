@@ -12,14 +12,14 @@ class BandsController extends Controller
 {
     use BandsAlphaList;
 
-    public function index() : Response
+    public function index(): Response
     {
         $alphabet = $this->getBandsAlphabet();
 
         return Inertia::render('Bands/BandsIndex')->with('alphabet', $alphabet);
     }
 
-    public function alpha($letter) : Response
+    public function alpha($letter): Response
     {
         $bands = $this->getBandsByLetter($letter);
 
@@ -28,16 +28,18 @@ class BandsController extends Controller
             ->with('bands', $bands);
     }
 
-    public function show($slug) : Response
+    public function show($slug): Response
     {
-        $band = Cache::rememberForever('band_'.$slug, function () use ($slug) {
-            return Band::where('URL', $slug)
-                ->with('albums', function ($query) {
-                    return $query->with('band')->with('songs')->withCount('songs');
-                })
-                ->with('relatedBands')
-                ->firstOrFail();
-        });
+        $band = Band::where('URL', $slug)
+            ->with('albums', function ($query) {
+                return $query->with('band')->with('songs')->withCount('songs');
+            })
+            ->with('relatedBands')
+            ->firstOrFail();
+
+        if (auth()->check()) {
+            $band->load('albums.songs.userFavorite');
+        }
 
         return Inertia::render('Bands/BandsShow')->with('band', $band);
     }
