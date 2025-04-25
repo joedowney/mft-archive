@@ -3,6 +3,7 @@ import Player, {PlayerState} from "@/PlayerStore.js";
 import {Link} from "@inertiajs/vue3";
 import {computed, onMounted, reactive, ref, watch} from "vue";
 import Playlist from "@/Components/Playlist.vue";
+import Favorite from "@/Components/Favorite.vue";
 
 let audio_el = ref(null);
 let seek_bar = ref(null);
@@ -81,8 +82,13 @@ let duration = computed(() => {
                      class="w-9 h-9 lg:w-16 lg:h-16 object-cover rounded mt-0.5"
                 />
                 <div class="flex flex-col lg:justify-center flex-1">
-                    <div class="text-sm font-bold lg:mb-1 text-sky-400 lg:text-white">
-                        {{ Player.currentSong.value?.Title }}
+                    <div class="flex justify-between">
+                        <div class="text-sm font-bold lg:mb-1 text-sky-400 lg:text-white">
+                            {{ Player.currentSong.value?.Title }}
+                        </div>
+                        <div v-if="Player.currentSong.value" class="mt-0.5 mr-1">
+                            <Favorite :song="Player.currentSong.value" />
+                        </div>
                     </div>
                     <div class="text-xs">
                         <Link :href="'/bands/' + Player.currentAlbum.value?.band?.Path" class="text-sky-600 lg:text-white">
