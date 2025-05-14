@@ -55,7 +55,7 @@ const userDropdown = ref(null);
                     </template>
                 </Dropdown>
             </template>
-            <template v-else-if="false">
+            <template v-else>
                 <div class="flex gap-4 ml-3">
                     <Link :href="route('login')" class="text-sm text-white whitespace-nowrap">
                         Log in
