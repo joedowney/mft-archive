@@ -5,6 +5,7 @@ import BackButton from "@/Components/BackButton.vue";
 import AudioPlayer from "@/Components/AudioPlayer.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
+import Toast from "@/Components/Toast.vue";
 import { ref } from 'vue';
 
 const page = usePage();
@@ -43,6 +44,9 @@ const userDropdown = ref(null);
                         <DropdownLink :href="route('favorites.index')" class="text-gray-700">
                             My Favorites
                         </DropdownLink>
+                        <DropdownLink :href="route('playlists.index')" class="text-gray-700">
+                            My Playlists
+                        </DropdownLink>
                         <DropdownLink
                             :href="route('logout')"
                             method="post"
@@ -55,7 +59,7 @@ const userDropdown = ref(null);
                     </template>
                 </Dropdown>
             </template>
-            <template v-else>
+            <template v-else-if="false">
                 <div class="flex gap-4 ml-3">
                     <Link :href="route('login')" class="text-sm text-white whitespace-nowrap">
                         Log in
@@ -69,4 +73,5 @@ const userDropdown = ref(null);
     </div>
     <slot />
     <AudioPlayer></AudioPlayer>
+    <Toast />
 </template>

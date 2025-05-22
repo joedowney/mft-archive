@@ -8,6 +8,7 @@ import PlayIcon from "@/Components/PlayIcon.vue";
 import LinkIcon from "@/Components/LinkIcon.vue";
 import {usePage} from "@inertiajs/vue3";
 import Favorite from "@/Components/Favorite.vue";
+import AddToPlaylist from "@/Components/AddToPlaylist.vue";
 
 let page = usePage();
 let user = page.props.auth?.user;
@@ -71,6 +72,13 @@ let playSong = () => {
             class="mr-2"
             :class="{'sm:opacity-0 group-hover:opacity-100':!song.user_favorite}"
         ></favorite>
+
+        <add-to-playlist
+            v-if="user"
+            :song="song"
+            class="mr-2"
+            :class="{'sm:opacity-0 group-hover:opacity-100': true}"
+        ></add-to-playlist>
 
         <div class="text-sm text-gray-400" v-if="song.Duration !== '00:00'">
             {{ song.Duration }}

@@ -29,21 +29,21 @@ import Page from "@/Components/Page.vue";
             </Link>
         </div>
 
-<!--        <div class="flex justify-center mb-8">-->
-<!--            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf92EeaMJzq1oMHHPpv52PHbrWs34vdtcYjmE8YmIWdzw2ONg/viewform"-->
-<!--               class="rounded-lg bg-emerald-700 px-6 py-3 text-white font-semibold hover:bg-emerald-600 transition duration-200 text-center"-->
-<!--               target="_blank"-->
-<!--            >-->
-<!--                Click here to submit music for the MFT archive-->
-<!--            </a>-->
-<!--        </div>-->
+        <div class="flex justify-center mb-8">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf92EeaMJzq1oMHHPpv52PHbrWs34vdtcYjmE8YmIWdzw2ONg/viewform"
+               class="rounded-lg bg-emerald-700 px-6 py-3 text-white font-semibold hover:bg-emerald-600 transition duration-200 text-center"
+               target="_blank"
+            >
+                Click here to submit music for the MFT archive
+            </a>
+        </div>
 
         <div class="text-base mt-8 mx-10">
             The Musical Family Tree archive was started in 2004 and serves as a crowd sourced MP3 archive of
             the Indiana music scene with a focus on the late 1970s through the 2010s. The MFT archive contains
             over 1000 musical artists and over 100,000 recordings, almost all of which are not found on
             traditional streaming services. Please explore the archive and contact us at team@musicalfamilytree.org
-            with any questions. Currently, the archive is not accepting new submissions. MFT is a 501c3 and
+            with any questions. MFT is a 501c3 and
             supported by donations. If you enjoy the archive and would like to support its continued existence we
             encourage you to donate via this link (<a href="https://www.musicalfamilytree.org/donate" class="text-blue-400">https://www.musicalfamilytree.org/donate</a>).
         </div>

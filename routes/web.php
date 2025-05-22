@@ -10,6 +10,7 @@ use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\GenresController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PlaylistsController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\FavoritesController;
 
@@ -37,6 +38,10 @@ Route::get('cities/{slug}', [CitiesController::class, 'show']);
 
 Route::get('search', [SearchController::class, 'search']);
 
+// Public playlist routes
+Route::get('playlists/dropdown', [PlaylistsController::class, 'listForDropdown'])->name('playlists.dropdown');
+Route::get('playlists/{playlist}', [PlaylistsController::class, 'show'])->name('playlists.show');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -44,6 +49,19 @@ Route::middleware(['auth'])->group(function () {
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
     Route::post('favorite', [FavoritesController::class, 'update'])->name('favorite.update');
     Route::get('favorites', [FavoritesController::class, 'index'])->name('favorites.index');
+
+    // Playlist routes
+    Route::get('playlists', [PlaylistsController::class, 'index'])->name('playlists.index');
+    Route::get('playlists/create', [PlaylistsController::class, 'create'])->name('playlists.create');
+    Route::post('playlists', [PlaylistsController::class, 'store'])->name('playlists.store');
+    Route::get('playlists/{playlist}/edit', [PlaylistsController::class, 'edit'])->name('playlists.edit');
+    Route::patch('playlists/{playlist}', [PlaylistsController::class, 'update'])->name('playlists.update');
+    Route::delete('playlists/{playlist}', [PlaylistsController::class, 'destroy'])->name('playlists.destroy');
+
+    // Playlist songs management
+    Route::post('playlists/{playlist}/songs', [PlaylistsController::class, 'addSong'])->name('playlists.songs.add');
+    Route::delete('playlists/{playlist}/songs', [PlaylistsController::class, 'removeSong'])->name('playlists.songs.remove');
+    Route::put('playlists/{playlist}/songs/reorder', [PlaylistsController::class, 'reorderSongs'])->name('playlists.songs.reorder');
 });
 
 require __DIR__.'/auth.php';

@@ -9,7 +9,8 @@ export const PlayerState = {
 export const PlaylistSource = {
     ALBUM: 'album',
     FAVORITES: 'favorites',
-    CUSTOM: 'custom'
+    CUSTOM: 'custom',
+    PLAYLIST: 'playlist'
 }
 
 let state = reactive({
