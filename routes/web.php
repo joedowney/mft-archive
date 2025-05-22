@@ -40,7 +40,6 @@ Route::get('search', [SearchController::class, 'search']);
 
 // Public playlist routes
 Route::get('playlists/dropdown', [PlaylistsController::class, 'listForDropdown'])->name('playlists.dropdown');
-Route::get('playlists/{playlist}', [PlaylistsController::class, 'show'])->name('playlists.show');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -57,7 +56,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('playlists/{playlist}/edit', [PlaylistsController::class, 'edit'])->name('playlists.edit');
     Route::patch('playlists/{playlist}', [PlaylistsController::class, 'update'])->name('playlists.update');
     Route::delete('playlists/{playlist}', [PlaylistsController::class, 'destroy'])->name('playlists.destroy');
+});
 
+// This needs to be after the more specific playlist routes to avoid route conflicts
+Route::get('playlists/{playlist}', [PlaylistsController::class, 'show'])->name('playlists.show');
+
+Route::middleware(['auth'])->group(function () {
     // Playlist songs management
     Route::post('playlists/{playlist}/songs', [PlaylistsController::class, 'addSong'])->name('playlists.songs.add');
     Route::delete('playlists/{playlist}/songs', [PlaylistsController::class, 'removeSong'])->name('playlists.songs.remove');
