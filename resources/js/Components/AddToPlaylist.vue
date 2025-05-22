@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
+import { router, useForm } from '@inertiajs/vue3';
+import Modal from '@/Components/Modal.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const props = defineProps({
     song: Object,
@@ -12,6 +16,14 @@ const buttonRef = ref(null);
 const playlists = ref([]);
 const loading = ref(false);
 const error = ref('');
+const showCreateModal = ref(false);
+
+const createForm = useForm({
+    name: '',
+    description: '',
+    is_public: false,
+    song_id: props.song.ID,
+});
 
 const fetchPlaylists = async () => {
     loading.value = true;
@@ -66,9 +78,32 @@ const addToPlaylist = async (playlistId, playlistName) => {
 };
 
 const createNewPlaylist = () => {
-    // Navigate to create playlist page with song ID, adding a return_to parameter
-    const currentPath = window.location.pathname + window.location.search;
-    window.location.href = `/playlists/create?song_id=${props.song.ID}&return_to=${encodeURIComponent(currentPath)}`;
+    // Open the create playlist modal
+    showCreateModal.value = true;
+    isOpen.value = false; // Close the dropdown
+};
+
+const submitCreateForm = () => {
+    // Store the playlist name before it gets reset
+    const playlistName = createForm.name;
+    
+    // Use axios instead of Inertia form to avoid automatic redirects
+    axios.post(route('playlists.store'), createForm.data())
+        .then(response => {
+            showCreateModal.value = false;
+            createForm.reset();
+            fetchPlaylists(); // Reload the playlists after creating a new one
+            showNotification(`Playlist "${playlistName}" created and song added!`);
+        })
+        .catch(error => {
+            // Handle validation errors
+            if (error.response && error.response.data && error.response.data.errors) {
+                Object.keys(error.response.data.errors).forEach(field => {
+                    createForm.setError(field, error.response.data.errors[field][0]);
+                });
+            }
+            showNotification('Failed to create playlist', 'error');
+        });
 };
 
 const showNotification = (message, type = 'success') => {
@@ -163,5 +198,58 @@ onUnmounted(() => {
             </div>
         </div>
         
+        <!-- Create Playlist Modal -->
+        <Modal :show="showCreateModal" @close="showCreateModal = false">
+            <div class="p-6 bg-gray-800 text-white">
+                <h2 class="text-xl font-semibold mb-4">Create New Playlist</h2>
+                
+                <form @submit.prevent="submitCreateForm" class="space-y-4">
+                    <div>
+                        <label for="playlist-name" class="block text-sm font-medium text-gray-300 mb-1">Playlist Name</label>
+                        <input 
+                            id="playlist-name"
+                            v-model="createForm.name"
+                            type="text"
+                            class="w-full rounded-md bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                            placeholder="My Awesome Playlist"
+                            required
+                        />
+                        <div v-if="createForm.errors.name" class="text-red-500 text-xs mt-1">{{ createForm.errors.name }}</div>
+                    </div>
+                    
+                    <div>
+                        <label for="playlist-description" class="block text-sm font-medium text-gray-300 mb-1">Description (optional)</label>
+                        <textarea 
+                            id="playlist-description"
+                            v-model="createForm.description"
+                            class="w-full rounded-md bg-gray-700 border-gray-600 text-white focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                            rows="2"
+                            placeholder="What's this playlist about?"
+                        ></textarea>
+                        <div v-if="createForm.errors.description" class="text-red-500 text-xs mt-1">{{ createForm.errors.description }}</div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input 
+                            id="playlist-public"
+                            v-model="createForm.is_public"
+                            type="checkbox"
+                            class="rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500"
+                        />
+                        <label for="playlist-public" class="ml-2 text-sm text-gray-300">Make this playlist public</label>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <SecondaryButton @click="showCreateModal = false">Cancel</SecondaryButton>
+                        <PrimaryButton 
+                            type="submit"
+                            :disabled="createForm.processing"
+                        >
+                            Create Playlist
+                        </PrimaryButton>
+                    </div>
+                </form>
+            </div>
+        </Modal>
     </div>
 </template>

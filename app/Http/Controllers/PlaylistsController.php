@@ -59,6 +59,14 @@ class PlaylistsController extends Controller
             $playlist->songs()->attach($request->song_id, ['order' => 0]);
         }
 
+        // For AJAX/Inertia XHR requests, return JSON response
+        if ((request()->ajax() && !request()->header('X-Inertia')) || request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'playlist' => $playlist
+            ]);
+        }
+
         return redirect()->route('playlists.show', $playlist);
     }
 
